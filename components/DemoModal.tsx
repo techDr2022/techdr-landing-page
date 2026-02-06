@@ -61,10 +61,13 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
           setSubmitted(false);
         }, 2000);
       } else {
-        setError("Something went wrong. Please try again.");
+        const data = await response.json().catch(() => ({}));
+        const msg = data?.error ?? "Something went wrong. Please try again.";
+        setError(msg);
       }
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      const msg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setError(msg.includes("fetch") || msg.includes("network") ? "Network error. Please check your connection and try again." : "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
