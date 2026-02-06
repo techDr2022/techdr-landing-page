@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm off-white background, deep slate text */
+    --background: 40 20% 98%;
+    --foreground: 220 26% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 26% 14%;
+    /* Teal primary – healthcare, trust, growth */
+    --primary: 173 58% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 173 25% 92%;
+    --secondary-foreground: 220 26% 14%;
+    --muted: 40 15% 94%;
+    --muted-foreground: 220 12% 46%;
+    --accent: 173 35% 90%;
+    --accent-foreground: 220 26% 14%;
+    --border: 40 12% 88%;
+    --input: 40 12% 88%;
+    --ring: 173 58% 36%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* 3D card effect: perspective and lift on hover */
+  .card-3d {
+    transform: perspective(800px) rotateX(0deg) translateZ(0);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .card-3d:hover {
+    transform: perspective(800px) rotateX(2deg) translateY(-6px) translateZ(12px);
+    box-shadow: 0 25px 50px -12px rgba(20, 184, 166, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Auto-scroll marquee for doctors carousel */
+  @keyframes doctors-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  .doctors-marquee {
+    animation: doctors-marquee 120s linear infinite;
+  }
+  .doctors-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  /* Floating 3D orb (for inline use) */
+  .orb-3d {
+    border-radius: 50%;
+    box-shadow: 0 20px 40px -10px rgba(20, 184, 166, 0.2), inset -5px -5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Curvy stylish underline for highlights */
+  .curly-underline {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' d='M0 6 Q15 2 30 6 T60 6 T90 6 T120 6'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-size: 100% 6px;
+    padding-bottom: 2px;
+  }
+
+  /* Fade in animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-\[fadeInUp_0\.7s_ease-out\] {
+    animation: fadeInUp 0.7s ease-out;
+  }
+
+  .animate-\[fadeIn_0\.7s_ease-out\] {
+    animation: fadeIn 0.7s ease-out;
+  }
+}
