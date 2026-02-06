@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       from: fromEmail,
       to: NOTIFY_EMAIL,
       subject: "New Demo Request",
-      reply_to: email || undefined,
+      replyTo: email || undefined,
       html,
     });
 
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
           from: "onboarding@resend.dev",
           to: NOTIFY_EMAIL,
           subject: "New Demo Request",
-          reply_to: email || undefined,
+          replyTo: email || undefined,
           html,
         });
         

@@ -54,7 +54,7 @@ const SEO_FAQS = [
 const LEFT_FAQS = SEO_FAQS.slice(0, 5);
 const RIGHT_FAQS = SEO_FAQS.slice(5, 10);
 
-function FaqColumn({ items, className }: { items: typeof SEO_FAQS; className?: string }) {
+function FaqColumn({ items, className }: { items: readonly typeof SEO_FAQS[number][]; className?: string }) {
   return (
     <Accordion type="multiple" className={cn("space-y-3", className)}>
       {items.map((faq, i) => (
