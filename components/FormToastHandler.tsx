@@ -4,19 +4,32 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { XCircle } from "lucide-react";
 
+const ERROR_MESSAGES: Record<string, string> = {
+  config: "Service is temporarily unavailable. Please try again later or contact us.",
+  email_required: "Please enter your email address.",
+  send_failed: "Something went wrong. Please try again in a moment.",
+};
+
 export function FormToastHandler() {
   const searchParams = useSearchParams();
   const submitted = searchParams?.get("submitted");
+  const errorCode = searchParams?.get("error");
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (submitted === "1") {
       setShowSuccess(true);
     } else if (submitted === "0") {
       setShowError(true);
+      setErrorMessage(
+        errorCode && ERROR_MESSAGES[errorCode]
+          ? ERROR_MESSAGES[errorCode]
+          : "Something went wrong. Please try again in a moment."
+      );
     }
-  }, [submitted]);
+  }, [submitted, errorCode]);
 
   return (
     <>
@@ -77,7 +90,7 @@ export function FormToastHandler() {
           <div className="flex-1">
             <p className="text-sm font-semibold text-slate-900">Error</p>
             <p className="mt-0.5 text-xs text-slate-600">
-              Something went wrong. Please try again in a moment.
+              {errorMessage}
             </p>
           </div>
           <button

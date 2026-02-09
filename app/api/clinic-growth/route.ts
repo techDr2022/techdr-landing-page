@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { sendCustomerConfirmation } from "@/lib/email-customer";
 
-const NOTIFY_EMAIL = "info@techdr.in";
+// Resend testing only allows sending to account email. Default: contact@techdr.in. Set RESEND_TO=info@techdr.in when domain is verified.
+const DEFAULT_NOTIFY_EMAIL = "contact@techdr.in";
+
+function redirectError(req: Request, code: "config" | "email_required" | "send_failed") {
+  const url = new URL("/", req.url);
+  url.searchParams.set("submitted", "0");
+  url.searchParams.set("error", code);
+  return NextResponse.redirect(url, { status: 303 });
+}
 
 export async function POST(req: Request) {
   try {
@@ -9,10 +18,7 @@ export async function POST(req: Request) {
 
     if (!apiKey) {
       console.error("RESEND_API_KEY is not set in environment variables");
-      return NextResponse.json(
-        { error: "API key not configured" },
-        { status: 500 }
-      );
+      return redirectError(req, "config");
     }
 
     const resend = new Resend(apiKey);
@@ -24,11 +30,9 @@ export async function POST(req: Request) {
     const speciality = (formData.get("speciality") || "") as string;
     const email = (formData.get("email") || "") as string;
 
-    if (!email) {
+    if (!email?.trim()) {
       console.error("Email is required");
-      return NextResponse.redirect(new URL("/?submitted=0", req.url), {
-        status: 303,
-      });
+      return redirectError(req, "email_required");
     }
 
     const html = `
@@ -40,15 +44,17 @@ export async function POST(req: Request) {
       <p><strong>Speciality:</strong> ${speciality || "-"}</p>
     `;
 
-    // Use onboarding@resend.dev if custom domain not verified, otherwise use configured email
-    const fromEmail = process.env.RESEND_FROM || `onboarding@resend.dev`;
+    const fromEmail =
+      process.env.RESEND_FROM?.trim() && !process.env.RESEND_FROM.includes("resend.dev")
+        ? process.env.RESEND_FROM.trim()
+        : "TechDr <contact@techdr.in>";
+    const toEmail = process.env.RESEND_TO || DEFAULT_NOTIFY_EMAIL;
 
-    console.log("Attempting to send email from:", fromEmail);
-    console.log("To:", NOTIFY_EMAIL);
+    console.log("Attempting to send email from:", fromEmail, "to:", toEmail);
 
     const result = await resend.emails.send({
       from: fromEmail,
-      to: NOTIFY_EMAIL,
+      to: toEmail,
       subject: "New Free Clinic Growth Plan Request",
       replyTo: email || undefined,
       html,
@@ -56,37 +62,35 @@ export async function POST(req: Request) {
 
     if (result.error) {
       console.error("Resend API error:", JSON.stringify(result.error, null, 2));
-      
+
       // If domain not verified, try with onboarding@resend.dev
       if (fromEmail !== "onboarding@resend.dev" && result.error.message?.includes("domain")) {
         console.log("Retrying with onboarding@resend.dev...");
         const retryResult = await resend.emails.send({
           from: "onboarding@resend.dev",
-          to: NOTIFY_EMAIL,
+          to: toEmail,
           subject: "New Free Clinic Growth Plan Request",
           replyTo: email || undefined,
           html,
         });
-        
+
         if (retryResult.error) {
           console.error("Retry also failed:", JSON.stringify(retryResult.error, null, 2));
-          return NextResponse.redirect(new URL("/?submitted=0", req.url), {
-            status: 303,
-          });
+          return redirectError(req, "send_failed");
         }
-        
+
         console.log("Email sent successfully with fallback:", retryResult.data);
+        await sendCustomerConfirmation(resend, fromEmail, email, clinicName || "there", "growth");
         return NextResponse.redirect(new URL("/?submitted=1", req.url), {
           status: 303,
         });
       }
-      
-      return NextResponse.redirect(new URL("/?submitted=0", req.url), {
-        status: 303,
-      });
+
+      return redirectError(req, "send_failed");
     }
 
     console.log("Email sent successfully:", result.data);
+    await sendCustomerConfirmation(resend, fromEmail, email, clinicName || "there", "growth");
 
     return NextResponse.redirect(new URL("/?submitted=1", req.url), {
       status: 303,
@@ -97,8 +101,6 @@ export async function POST(req: Request) {
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
     }
-    return NextResponse.redirect(new URL("/?submitted=0", req.url), {
-      status: 303,
-    });
+    return redirectError(req, "send_failed");
   }
 }

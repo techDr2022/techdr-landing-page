@@ -5,6 +5,7 @@ import { DoctorsCarousel } from "@/components/DoctorsCarousel";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
 import { DemoButton } from "@/components/DemoButton";
+import { PricingTabs } from "@/components/PricingTabs";
 import { doctors } from "@/app/data/doctors";
 import {
   Megaphone,
@@ -17,13 +18,12 @@ import {
 } from "lucide-react";
 
 type HomeProps = {
-  searchParams?: {
-    submitted?: string;
-  };
+  searchParams?: Promise<{ submitted?: string }>;
 };
 
-export default function Home({ searchParams }: HomeProps) {
-  const submitted = searchParams?.submitted;
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams;
+  const submitted = params?.submitted;
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <Suspense fallback={null}>
@@ -66,7 +66,7 @@ export default function Home({ searchParams }: HomeProps) {
           </nav>
           <div className="hidden items-center gap-3 md:flex">
             <a
-              href="#contact"
+              href="tel:+919542218454"
               className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
             >
               Talk to Expert
@@ -178,7 +178,7 @@ export default function Home({ searchParams }: HomeProps) {
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-12 px-4 md:px-8 md:gap-16">
             <div className="text-center">
               <p className="text-3xl font-bold tracking-tight md:text-4xl">
-                100+
+                200+
               </p>
               <p className="mt-1 text-sm font-medium text-slate-400">
                 Healthcare clients
@@ -288,13 +288,72 @@ export default function Home({ searchParams }: HomeProps) {
                   ))}
                 </ul>
               </div>
-              <div className="relative">
-                <div className="aspect-[4/3] rounded-2xl border border-slate-200/80 bg-slate-100">
-                  {/* Photo placeholder - replace with your image */}
-                  <div className="flex h-full items-center justify-center text-slate-400">
-                    <span className="text-sm">Photo placeholder</span>
+              <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-6 shadow-sm">
+                <p className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                  Enquiry breakdown
+                </p>
+                <h3 className="mt-3 text-lg font-semibold text-slate-900">
+                  What actually blocks online patient enquiries
+                </h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  Most clinics don&apos;t have a traffic problem they have a{" "}
+                  <span className="font-semibold text-emerald-700">conversion and follow-up problem.</span>
+                </p>
+                <div className="mt-4 grid grid-cols-3 gap-2 text-[11px]">
+                  <div className="rounded-xl border border-emerald-100 bg-white px-3 py-2 text-center">
+                    <p className="font-semibold text-emerald-700">Traffic</p>
+                    <p className="mt-0.5 text-slate-500">People who see you</p>
+                  </div>
+                  <div className="rounded-xl border border-amber-100 bg-white px-3 py-2 text-center">
+                    <p className="font-semibold text-amber-700">Interest</p>
+                    <p className="mt-0.5 text-slate-500">People who click</p>
+                  </div>
+                  <div className="rounded-xl border border-rose-100 bg-white px-3 py-2 text-center">
+                    <p className="font-semibold text-rose-700">Enquiries</p>
+                    <p className="mt-0.5 text-slate-500">People who contact</p>
                   </div>
                 </div>
+                <div className="mt-5 space-y-3">
+                  {[
+                    {
+                      stage: "Seen but not searched",
+                      detail:
+                        "People notice your brand offline or on social, but your Google / Maps presence is weak or inconsistent.",
+                    },
+                    {
+                      stage: "Searched but not clicked",
+                      detail:
+                        "You appear on search or Maps, but reviews, photos, or profile content don&apos;t convince patients to tap.",
+                    },
+                    {
+                      stage: "Clicked but not contacted",
+                      detail:
+                        "Website or landing page feels generic, slow, or doesn&apos;t show clear doctor trust and simple call / WhatsApp options.",
+                    },
+                    {
+                      stage: "Contacted but not booked",
+                      detail:
+                        "Reception or WhatsApp replies are delayed, there&apos;s no reminders, and patients quietly choose another clinic.",
+                    },
+                  ].map((item, idx) => (
+                    <div
+                      key={item.stage}
+                      className="flex gap-3 rounded-xl border border-slate-200 bg-white p-3 text-sm"
+                    >
+                      <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50 text-[11px] font-semibold text-emerald-700">
+                        {idx + 1}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">{item.stage}</p>
+                        <p className="text-xs text-slate-600">{item.detail}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs text-slate-500">
+                  TechDr fixes these specific breakpoints so that a higher percentage of your visibility
+                  turns into real, trackable patient enquiries.
+                </p>
               </div>
             </div>
           </div>
@@ -480,7 +539,10 @@ export default function Home({ searchParams }: HomeProps) {
               <div>
                 <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
                 <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-                  Complete healthcare digital ecosystem
+                  Complete healthcare{" "}
+                  <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    digital ecosystem
+                  </span>
                 </h2>
                 <p className="mt-3 max-w-2xl text-lg text-slate-600">
                   One integrated system across marketing, branding, websites,
@@ -648,7 +710,10 @@ export default function Home({ searchParams }: HomeProps) {
           <div className="mx-auto max-w-6xl px-4 md:px-8">
             <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              Proof that builds confidence
+              Proof that builds{" "}
+              <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                confidence
+              </span>
             </h2>
             <p className="mt-4 max-w-2xl text-slate-600">
               Growth is not a promise it's a system. Here's what TechDr
@@ -678,6 +743,28 @@ export default function Home({ searchParams }: HomeProps) {
             >
               View results and case studies →
             </a>
+          </div>
+        </section>
+
+        {/* Pricing - tabs */}
+        <section
+          id="pricing"
+          className="border-b border-slate-200/80 bg-slate-50/50 py-16 md:py-20"
+        >
+          <div className="mx-auto max-w-6xl px-4 md:px-8">
+            <div className="mb-10 text-center">
+              <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+                Pricing for{" "}
+                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                  doctors, clinics &amp; hospitals
+                </span>
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                Two packages per segment · All prices +18% GST
+              </p>
+            </div>
+            <PricingTabs />
           </div>
         </section>
 
@@ -792,7 +879,7 @@ export default function Home({ searchParams }: HomeProps) {
                 <span>→</span>
               </DemoButton>
               <a
-                href="#"
+                href="tel:+919542218454"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-slate-500 bg-transparent px-8 py-4 text-base font-semibold text-white transition hover:border-slate-400 hover:bg-white/5"
               >
                 Speak to our team
