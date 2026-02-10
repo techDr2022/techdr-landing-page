@@ -10,8 +10,8 @@ function getCustomerConfirmationContent(recipientName: string, type: Confirmatio
     ? "We received your request for a Free Clinic Growth Plan"
     : "We received your demo request";
   const nextStep = isGrowth
-    ? "Our healthcare growth team will review your details and get in touch within 1–2 business days with a tailored plan and next steps."
-    : "Our team will reach out within 1–2 business days to schedule a time that works for you.";
+    ? "Our healthcare growth team will review your details and get in touch within 1–2 business days with a tailored plan and next steps. If you can, please share a bit about your clinic’s goals so we can prepare better."
+    : "Our team will reach out within 1–2 business days to schedule a time that works for you. It would be great if you could briefly share your goals so we can make the demo more relevant to you.";
   const html = `
 <!DOCTYPE html>
 <html>
