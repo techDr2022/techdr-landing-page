@@ -1,25 +1,46 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Providers } from "./providers";
 import "./globals.css";
 
+const siteUrl = "https://techdr.in";
+const siteName = "TechDr";
+
 export const metadata: Metadata = {
-  title: "TechDr | Digital Marketing Agency   200+ Healthcare Clients",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "TechDr | Healthcare Digital Growth Studio",
+    template: "%s | TechDr",
+  },
   description:
-    "TechDr is a digital marketing agency trusted by 200+ clinics and hospitals. SEO, Google Ads, GMB, and smart appointment booking for healthcare in Hyderabad and beyond.",
+    "Healthcare-focused digital growth studio for doctors, clinics and hospitals. Marketing, SEO, ads, branding and booking systems trusted by 200+ healthcare clients.",
   openGraph: {
-    title: "TechDr | Digital Marketing Agency   200+ Healthcare Clients",
+    title: "TechDr | Healthcare Digital Growth Studio",
     description:
-      "Digital marketing and smart appointment booking for doctors, clinics and hospitals. Trusted by 200+ clients.",
+      "TechDr helps doctors, clinics and hospitals attract more patients, automate bookings and build stronger healthcare brands.",
+    url: "/",
+    siteName,
+    type: "website",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechDr | Healthcare Digital Growth Studio",
+    description:
+      "Digital marketing, automation and branding for healthcare teams across India.",
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html lang="en-GB" suppressHydrationWarning>
+    <html lang="en-IN" suppressHydrationWarning>
       <body>
         <Providers>{children}</Providers>
       </body>

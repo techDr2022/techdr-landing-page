@@ -5,9 +5,9 @@ import { Check } from "lucide-react";
 import { Box, Flex, Heading, Text, Button, Card, CardHeader, CardBody, CardFooter, Badge, Container, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from "@chakra-ui/react";
 
 const plans = [
-  { id: "starter", name: "Starter", description: "For single-doctor practices getting started.", price: "Custom", badge: null, features: ["Google Business Profile basics", "SEO audit and key pages", "Simple booking page", "WhatsApp confirmations", "Weekly reporting"], cta: "Get in touch" },
-  { id: "growth", name: "Growth", description: "For clinics ready to scale patient flow.", price: "Custom", badge: "Recommended", features: ["Everything in Starter", "Google Ads (search)", "Local SEO and schema", "Slot rules and RWG", "Reminders and feedback automation", "Admin dashboard", "Monthly content calendar"], cta: "Get in touch" },
-  { id: "premium", name: "Premium", description: "For multi-branch and full-service needs.", price: "Custom", badge: null, features: ["Everything in Growth", "Multi-branch and multi-doctor", "Dedicated account manager", "Social media and creatives", "Advanced tracking and attribution", "Priority support"], cta: "Get in touch" },
+  { id: "starter", name: "Starter", description: "For single-doctor practices getting started.", price: "From ₹15K/mo + 18% GST", badge: null, features: ["Google Business Profile basics", "SEO audit and key pages", "Simple booking page", "WhatsApp confirmations", "Weekly reporting"], cta: "Get in touch" },
+  { id: "growth", name: "Growth", description: "For clinics ready to scale patient flow.", price: "From ₹20K/mo + 18% GST", badge: "Recommended", features: ["Everything in Starter", "Google Ads (search)", "Local SEO and schema", "Slot rules and RWG", "Reminders and feedback automation", "Admin dashboard", "Monthly content calendar"], cta: "Get in touch" },
+  { id: "premium", name: "Premium", description: "For multi-branch and full-service needs.", price: "Custom + 18% GST", badge: null, features: ["Everything in Growth", "Multi-branch and multi-doctor", "Dedicated account manager", "Social media and creatives", "Advanced tracking and attribution", "Priority support"], cta: "Get in touch" },
 ];
 
 const comparisonFeatures = [
@@ -40,6 +40,9 @@ export function Pricing() {
           <Box mb={14} textAlign="center">
             <Heading as="h2" size="xl" fontWeight="semibold" letterSpacing="tight" mb={3}>Packages and Pricing</Heading>
             <Text maxW="xl" mx="auto" color="gray.600" _dark={{ color: "gray.400" }}>Three plans that combine marketing and booking. Choose what fits your practice.</Text>
+            <Text mt={3} fontSize="sm" color="gray.500" _dark={{ color: "gray.400" }}>
+              One-time onboarding fee · Ad spend billed separately · GST extra
+            </Text>
           </Box>
         </motion.div>
 

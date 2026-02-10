@@ -4,11 +4,134 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DemoButton } from "@/components/DemoButton";
 import { CheckCircle2 } from "lucide-react";
 
-const tableRow = "flex items-center gap-4 border-b border-slate-100 py-3 text-sm last:border-0";
-const cellFeature = "flex-1 text-slate-700";
-const cellPkg = "w-[140px] shrink-0 text-right text-slate-600";
-const cellCheck = "w-[140px] shrink-0 text-right text-emerald-600";
-const cellPkgRight = "w-[140px] shrink-0 text-right text-slate-600";
+type Plan = {
+  name: string;
+  tag?: string;
+  price: string;
+  summary: string;
+  features: string[];
+  highlight?: boolean;
+};
+
+const doctorPlans: Plan[] = [
+  {
+    name: "Doctor Starter",
+    price: "from ₹15K/mo + 18% GST",
+    summary: "For individual doctors testing digital seriously.",
+    features: [
+      "GMB & local SEO setup",
+      "IG + FB content",
+      "10 posts/month",
+      "Landing page + WhatsApp",
+      "Weekly reporting",
+    ],
+  },
+  {
+    name: "Doctor Growth",
+    tag: "Most chosen",
+    price: "from ₹20K/mo + 18% GST",
+    summary: "For doctors who want predictable enquiry flow.",
+    features: [
+      "Everything in Starter",
+      "SEO + GMB review engine",
+      "12 posts + 4 reels/month",
+      "Google Ads campaigns",
+      "Booking & telehealth flow",
+    ],
+    highlight: true,
+  },
+];
+
+const clinicPlans: Plan[] = [
+  {
+    name: "Clinic Growth",
+    price: "from ₹20K/mo + 18% GST",
+    summary: "For single / multi-speciality clinics.",
+    features: [
+      "SEO, Maps & landing pages",
+      "Meta & Google lead campaigns",
+      "Review management",
+      "Booking & telehealth",
+      "Basic WhatsApp automations",
+    ],
+  },
+  {
+    name: "Clinic Scale",
+    tag: "For aggressive growth",
+    price: "from ₹25K/mo + 18% GST",
+    summary: "For clinics ready to dominate their locality.",
+    features: [
+      "Everything in Growth",
+      "Full-funnel ad strategy",
+      "Advanced dashboards",
+      "Content + video engine",
+      "WhatsApp automations & CRM",
+    ],
+    highlight: true,
+  },
+];
+
+const hospitalPlans: Plan[] = [
+  {
+    name: "Hospital Growth",
+    price: "from ₹30K/mo + 18% GST",
+    summary: "For multi-department hospitals building a digital engine.",
+    features: [
+      "Multi-dept SEO & campaigns",
+      "GMB review & reputation",
+      "Website, booking & telehealth",
+      "Centralised reporting",
+      "Social for key departments",
+    ],
+  },
+  {
+    name: "Hospital Enterprise",
+    tag: "Custom",
+    price: "Custom + 18% GST",
+    summary: "For healthcare chains and complex, multi-location setups.",
+    features: [
+      "Custom growth roadmap",
+      "Dedicated pod (marketing + tech)",
+      "SaaS, dashboards & integrations",
+      "Multi-location performance stack",
+      "Quarterly strategy & training",
+    ],
+    highlight: true,
+  },
+];
+
+function PricingCard({ plan }: { plan: Plan }) {
+  return (
+    <div
+      className={`flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 ${
+        plan.highlight ? "border-emerald-300/80 ring-1 ring-emerald-300/70" : ""
+      }`}
+    >
+      <div className="mb-3 flex items-start justify-between gap-2">
+        <div>
+          <h3 className="text-base font-semibold text-slate-900">{plan.name}</h3>
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-emerald-700">
+            {plan.price}
+          </p>
+        </div>
+        {plan.tag ? (
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+            {plan.tag}
+          </span>
+        ) : null}
+      </div>
+      <p className="mb-3 text-xs text-slate-500">{plan.summary}</p>
+      <div className="mt-1 space-y-2 text-sm text-slate-700">
+        {plan.features.map((feature) => (
+          <div key={feature} className="flex items-start gap-2">
+            <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 text-emerald-500" />
+            <span>{feature}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function PricingTabs() {
   return (
@@ -43,34 +166,16 @@ export function PricingTabs() {
                 Discuss pricing
               </DemoButton>
             </div>
+            <p className="mt-2 text-xs text-slate-500">
+              One-time onboarding fee · Ad spend billed separately · GST extra
+            </p>
           </div>
           <div className="px-5 py-4 md:px-6">
-            {/* Package headers */}
-            <div className={`${tableRow} bg-slate-50/80 font-medium text-slate-500`}>
-              <div className={cellFeature}>Feature</div>
-              <div className={cellPkg}>Doctor Starter · ₹15K/mo</div>
-              <div className={cellPkg}>Doctor Growth · ₹20K/mo</div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {doctorPlans.map((plan) => (
+                <PricingCard key={plan.name} plan={plan} />
+              ))}
             </div>
-            {[
-              { f: "GMB & Local SEO", s: "Setup + regular updates", g: "Daily updates" },
-              { f: "Social (IG, FB, YouTube)", s: "IG + FB", g: "IG + FB + YouTube" },
-              { f: "Content", s: "10 posts/mo", g: "12 posts + 4 reels (video shoot)" },
-              { f: "GMB Review Management", s: "check", g: "check" },
-              { f: "Landing page & WhatsApp", s: "check", g: "check" },
-              { f: "Google Ads", s: "—", g: "check" },
-              { f: "Review & reputation", s: "—", g: "check" },
-              { f: "Booking & Telehealth", s: "—", g: "check" },
-            ].map((row) => (
-              <div key={row.f} className={tableRow}>
-                <div className={cellFeature}>{row.f}</div>
-                <div className={cellPkg}>
-                  {row.s === "check" ? <CheckCircle2 className="ml-auto inline h-4 w-4" /> : row.s}
-                </div>
-                <div className={row.g === "check" ? cellCheck : cellPkgRight}>
-                  {row.g === "check" ? <CheckCircle2 className="ml-auto inline h-4 w-4" /> : row.g}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </TabsContent>
@@ -84,31 +189,16 @@ export function PricingTabs() {
                 Discuss pricing
               </DemoButton>
             </div>
+            <p className="mt-2 text-xs text-slate-500">
+              One-time onboarding fee · Ad spend billed separately · GST extra
+            </p>
           </div>
           <div className="px-5 py-4 md:px-6">
-            <div className={`${tableRow} bg-slate-50/80 font-medium text-slate-500`}>
-              <div className={cellFeature}>Feature</div>
-              <div className={cellPkg}>Clinic Growth · ₹20K/mo</div>
-              <div className={cellPkg}>Clinic Scale · ₹25K/mo</div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {clinicPlans.map((plan) => (
+                <PricingCard key={plan.name} plan={plan} />
+              ))}
             </div>
-            {[
-              { f: "SEO, Maps & landing pages", s: "check", g: "check" },
-              { f: "Social (IG, FB, YouTube)", s: "check", g: "check" },
-              { f: "GMB Review Management", s: "check", g: "check" },
-              { f: "Meta & Google campaigns", s: "Lead campaigns", g: "Full-funnel" },
-              { f: "Booking & Telehealth", s: "check", g: "check" },
-              { f: "WhatsApp automations & dashboard", s: "Basic tracking", g: "check" },
-            ].map((row) => (
-              <div key={row.f} className={tableRow}>
-                <div className={cellFeature}>{row.f}</div>
-                <div className={row.s === "check" ? cellCheck : cellPkg}>
-                  {row.s === "check" ? <CheckCircle2 className="ml-auto inline h-4 w-4" /> : row.s}
-                </div>
-                <div className={row.g === "check" ? cellCheck : cellPkgRight}>
-                  {row.g === "check" ? <CheckCircle2 className="ml-auto inline h-4 w-4" /> : row.g}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </TabsContent>
@@ -122,30 +212,16 @@ export function PricingTabs() {
                 Discuss pricing
               </DemoButton>
             </div>
+            <p className="mt-2 text-xs text-slate-500">
+              One-time onboarding fee · Ad spend billed separately · GST extra
+            </p>
           </div>
           <div className="px-5 py-4 md:px-6">
-            <div className={`${tableRow} bg-slate-50/80 font-medium text-slate-500`}>
-              <div className={cellFeature}>Feature</div>
-              <div className={cellPkg}>Hospital Growth · ₹30K/mo</div>
-              <div className={cellPkg}>Hospital Enterprise · Custom</div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {hospitalPlans.map((plan) => (
+                <PricingCard key={plan.name} plan={plan} />
+              ))}
             </div>
-            {[
-              { f: "Multi-dept SEO & campaigns", s: "check", g: "check" },
-              { f: "Social (IG, FB, YouTube)", s: "check", g: "check" },
-              { f: "GMB Review Management", s: "check", g: "check" },
-              { f: "Website, Booking & Telehealth", s: "check", g: "check" },
-              { f: "Multi-location, SaaS, dedicated team", s: "Centralised reporting", g: "check" },
-            ].map((row) => (
-              <div key={row.f} className={tableRow}>
-                <div className={cellFeature}>{row.f}</div>
-                <div className={row.s === "check" ? cellCheck : cellPkg}>
-                  {row.s === "check" ? <CheckCircle2 className="ml-auto inline h-4 w-4" /> : row.s}
-                </div>
-                <div className={row.g === "check" ? cellCheck : cellPkgRight}>
-                  {row.g === "check" ? <CheckCircle2 className="ml-auto inline h-4 w-4" /> : row.g}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </TabsContent>

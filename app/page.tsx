@@ -7,6 +7,7 @@ import { FormToastHandler } from "@/components/FormToastHandler";
 import { DemoButton } from "@/components/DemoButton";
 import { PricingTabs } from "@/components/PricingTabs";
 import { doctors } from "@/app/data/doctors";
+import { WHATSAPP_NUMBER, WHATSAPP_PREFILL } from "@/lib/config";
 import {
   Megaphone,
   Search,
@@ -24,6 +25,9 @@ type HomeProps = {
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const submitted = params?.submitted;
+  const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    WHATSAPP_PREFILL,
+  )}`;
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <Suspense fallback={null}>
@@ -31,14 +35,14 @@ export default async function Home({ searchParams }: HomeProps) {
       </Suspense>
       {/* Minimal header - agency style */}
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-8">
-          <a href="#" className="flex items-center h-10">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4 md:px-8">
+          <a href="#" className="flex items-center h-11 md:h-12">
             <Image
               src="/logo.png"
               alt="TechDr"
-              width={60}
-              height={40}
-              className="h-full w-[60px] object-contain"
+              width={96}
+              height={48}
+              className="h-full w-[90px] object-contain md:w-[110px]"
             />
           </a>
           <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
@@ -49,10 +53,10 @@ export default async function Home({ searchParams }: HomeProps) {
               Services
             </a>
             <a href="#booking-system" className="transition hover:text-slate-900">
-              Booking
+              Booking system
             </a>
-            <a href="#industries" className="transition hover:text-slate-900">
-              Industries
+            <a href="#pricing" className="transition hover:text-slate-900">
+              Pricing
             </a>
             <a href="#proof" className="transition hover:text-slate-900">
               Proof
@@ -64,6 +68,7 @@ export default async function Home({ searchParams }: HomeProps) {
               Contact
             </a>
           </nav>
+          {/* Desktop actions */}
           <div className="hidden items-center gap-3 md:flex">
             <a
               href="tel:+919542218454"
@@ -75,8 +80,41 @@ export default async function Home({ searchParams }: HomeProps) {
               Book a Demo
             </DemoButton>
           </div>
+          {/* Mobile action */}
+          <div className="flex items-center gap-2 md:hidden">
+            <DemoButton className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40">
+              Book a Demo
+            </DemoButton>
+          </div>
         </div>
       </header>
+
+      {/* Mobile nav stripe with section links */}
+      <div className="border-b border-slate-200/80 bg-white md:hidden">
+        <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-4 py-2 text-xs font-medium text-slate-600">
+          <a href="#why-techdr" className="whitespace-nowrap transition hover:text-slate-900">
+            Why TechDr
+          </a>
+          <a href="#services" className="whitespace-nowrap transition hover:text-slate-900">
+            Services
+          </a>
+          <a href="#booking-system" className="whitespace-nowrap transition hover:text-slate-900">
+            Booking
+          </a>
+          <a href="#pricing" className="whitespace-nowrap transition hover:text-slate-900">
+            Pricing
+          </a>
+          <a href="#proof" className="whitespace-nowrap transition hover:text-slate-900">
+            Proof
+          </a>
+          <a href="#faq" className="whitespace-nowrap transition hover:text-slate-900">
+            FAQ
+          </a>
+          <a href="#contact" className="whitespace-nowrap transition hover:text-slate-900">
+            Contact
+          </a>
+        </div>
+      </div>
 
       <main>
         {/* Hero - full impact */}
@@ -641,9 +679,9 @@ export default async function Home({ searchParams }: HomeProps) {
                 </p>
                 <div className="space-y-3">
                   {[
-                    { label: "Today's appointments", value: "28" },
-                    { label: "Automated reminders", value: "92%" },
-                    { label: "No-show rate", value: "↓ 37%" },
+                    { label: "This week’s bookings", value: "146" },
+                    { label: "Confirmed via WhatsApp", value: "78%" },
+                    { label: "Average wait time", value: "09 min" },
                   ].map((item) => (
                     <div
                       key={item.label}
@@ -761,7 +799,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 </span>
               </h2>
               <p className="mt-2 text-sm text-slate-500">
-                Two packages per segment · All prices +18% GST
+                Starting monthly retainers · One-time onboarding fee · Ad spend billed separately · GST extra
               </p>
             </div>
             <PricingTabs />
@@ -892,6 +930,106 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
         </section>
       </main>
+
+      <footer className="border-t border-slate-200/80 bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 pt-5 pb-16 text-center text-xs text-slate-600 md:flex-row md:px-8 md:py-5 md:pb-8">
+          <div className="space-y-1">
+            <p>
+              TechDr is a{" "}
+              <span className="font-semibold text-slate-700">
+                Reserve with Google partner
+              </span>
+              .
+            </p>
+            <p className="text-sm text-slate-700 md:text-xs">
+              <a href="tel:+919542218454" className="font-medium hover:text-slate-900">
+                +91 95422 18454
+              </a>{" "}
+              ·{" "}
+              <a
+                href="mailto:info@techdr.in"
+                className="font-medium hover:text-slate-900"
+              >
+                info@techdr.in
+              </a>
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/doctors/doctors%20photos%20-%20techdr-1/RWG%20Logo.png"
+              alt="Reserve with Google Partner"
+              width={140}
+              height={40}
+              className="h-8 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </footer>
+
+      {/* Sticky call / WhatsApp – mobile: icons, desktop: text buttons */}
+      {/* Mobile icons */}
+      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:hidden">
+        <a
+          href="tel:+919542218454"
+          aria-label="Call us"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
+        >
+          <Image
+            src="/phone-call.png"
+            alt="Call us"
+            width={22}
+            height={22}
+            className="h-[22px] w-[22px] object-contain"
+          />
+        </a>
+        <a
+          href={whatsappLink}
+          aria-label="WhatsApp us"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
+        >
+          <Image
+            src="/whatsapp.png"
+            alt="WhatsApp us"
+            width={22}
+            height={22}
+            className="h-[22px] w-[22px] object-contain"
+          />
+        </a>
+      </div>
+
+      {/* Desktop pill buttons with text */}
+      <div className="fixed bottom-6 right-6 z-40 hidden flex-col items-end gap-3 md:flex">
+        <a
+          href="tel:+919542218454"
+          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
+        >
+          <Image
+            src="/phone-call.png"
+            alt="Call us"
+            width={18}
+            height={18}
+            className="h-[18px] w-[18px] object-contain"
+          />
+          <span>Call us</span>
+        </a>
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
+        >
+          <Image
+            src="/whatsapp.png"
+            alt="WhatsApp us"
+            width={18}
+            height={18}
+            className="h-[18px] w-[18px] object-contain"
+          />
+          <span>WhatsApp us</span>
+        </a>
+      </div>
     </div>
   );
 }
