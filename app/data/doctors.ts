@@ -26,12 +26,11 @@ function parseFilename(filename: string): { name: string; specialization: string
 
 const DOCTOR_FILES = [
   "Dr Aman Chandra - Urologist.png",
-  "Dr Anupama Swarna - Specialist in Gastroenterology, Hepatology & Therapeutic Endoscopy - Jade Clinic.png",
+  "Dr Anupama - Gastroenterologist.png",
   "Dr Anvesh Reddy General &  Laparoscopic Surgeon.png",
   "DR avani reddy - Gynecologist.png",
   "Dr Deepa Reddy  Radiologist.png",
   "DR divya  - Dermatologist.png",
-  "Dr Harinath Reddy  General Physician.png",
   "Dr jagdish pusa - orthopedic surgeon - UNO Clinic.png",
   "DR JASMIN RATH Obstetrician & Gynecologist  - Apollo Cradle.png",
   "Dr keerthana urologist - Susheela Hospitals.png",
@@ -51,7 +50,7 @@ const DOCTOR_FILES = [
   "Dr Sravya Buggana - Gynecologist.png",
   "Dr Swathi Sreerangam - Gynecologist.png",
   "Dr Vinay Kumar Orthopedician, Trauma & Joint Replacement Expert.png",
-  "Dr. AAZADH CHANDRA SEKHAR - Surgical Oncologist - Renova Hospitals.png",
+  "Dr Aazadh - Surgical Oncologist.png",
   "Dr. ALDI BHAVANA  Physician & Diabetologist.png",
   "Dr. Dheemanth Reddy -Neurologist - Neumed clinics.png",
   "Dr. Guduru Ashwini - Pediatrician & Newborn Specialist. - Avila Clinic.png",
