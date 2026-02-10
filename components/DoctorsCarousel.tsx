@@ -29,10 +29,10 @@ function DoctorCard({ doc }: { doc: Doctor }) {
       className="doctor-card flex shrink-0 flex-col items-center rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm transition hover:border-emerald-200 hover:shadow-md"
       style={{ width: CARD_WIDTH }}
     >
-      {/* Only the image is sized by its natural aspect ratio */}
-      <div className="relative mx-auto flex min-h-[160px] w-full items-center justify-center overflow-hidden rounded-xl bg-slate-100">
+      {/* Photo box automatically sized by the photo itself (no extra empty height) */}
+      <div className="relative mx-auto inline-flex max-h-[220px] w-full items-center justify-center overflow-hidden rounded-xl bg-slate-100">
         {imgError ? (
-          <div className="flex h-[160px] w-full flex-col items-center justify-center gap-2 rounded-xl bg-slate-200/80 text-slate-400">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl bg-slate-200/80 text-slate-400">
             <User className="h-12 w-12" />
             <span className="text-xs font-medium">Photo</span>
           </div>
