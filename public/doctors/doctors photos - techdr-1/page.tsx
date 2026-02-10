@@ -16,9 +16,6 @@ import {
   CalendarClock,
   UserCircle2,
   CheckCircle2,
-  Target,
-  Zap,
-  RefreshCw,
 } from "lucide-react";
 
 type HomeProps = {
@@ -36,7 +33,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <Suspense fallback={null}>
         <FormToastHandler />
       </Suspense>
-      {/* Minimal header - agency style, sticky on mobile and desktop */}
+      {/* Minimal header - agency style */}
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4 md:px-8">
           <a href="#" className="flex items-center h-11 md:h-12">
@@ -90,33 +87,34 @@ export default async function Home({ searchParams }: HomeProps) {
             </DemoButton>
           </div>
         </div>
-        {/* Mobile nav stripe with section links - inside header so it sticks together */}
-        <div className="border-t border-slate-200/80 bg-white md:hidden">
-          <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-4 py-2 text-xs font-medium text-slate-600">
-            <a href="#why-techdr" className="whitespace-nowrap transition hover:text-slate-900">
-              Why TechDr
-            </a>
-            <a href="#services" className="whitespace-nowrap transition hover:text-slate-900">
-              Services
-            </a>
-            <a href="#booking-system" className="whitespace-nowrap transition hover:text-slate-900">
-              Booking
-            </a>
-            <a href="#pricing" className="whitespace-nowrap transition hover:text-slate-900">
-              Pricing
-            </a>
-            <a href="#proof" className="whitespace-nowrap transition hover:text-slate-900">
-              Proof
-            </a>
-            <a href="#faq" className="whitespace-nowrap transition hover:text-slate-900">
-              FAQ
-            </a>
-            <a href="#contact" className="whitespace-nowrap transition hover:text-slate-900">
-              Contact
-            </a>
-          </div>
-        </div>
       </header>
+
+      {/* Mobile nav stripe with section links */}
+      <div className="border-b border-slate-200/80 bg-white md:hidden">
+        <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-4 py-2 text-xs font-medium text-slate-600">
+          <a href="#why-techdr" className="whitespace-nowrap transition hover:text-slate-900">
+            Why TechDr
+          </a>
+          <a href="#services" className="whitespace-nowrap transition hover:text-slate-900">
+            Services
+          </a>
+          <a href="#booking-system" className="whitespace-nowrap transition hover:text-slate-900">
+            Booking
+          </a>
+          <a href="#pricing" className="whitespace-nowrap transition hover:text-slate-900">
+            Pricing
+          </a>
+          <a href="#proof" className="whitespace-nowrap transition hover:text-slate-900">
+            Proof
+          </a>
+          <a href="#faq" className="whitespace-nowrap transition hover:text-slate-900">
+            FAQ
+          </a>
+          <a href="#contact" className="whitespace-nowrap transition hover:text-slate-900">
+            Contact
+          </a>
+        </div>
+      </div>
 
       <main>
         {/* Hero - full impact */}
@@ -133,7 +131,7 @@ export default async function Home({ searchParams }: HomeProps) {
                   <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                     Patient Enquiries
                   </span>{" "}
-                  for Your Clinic Predictably
+                  for Your  
                 </h1>
                 <p className="max-w-xl text-lg text-slate-600">
                   Healthcare marketing, Google visibility, and automated booking
@@ -401,13 +399,11 @@ export default async function Home({ searchParams }: HomeProps) {
         {/* One System - Attract, Convert, Retain */}
         <section
           id="one-system"
-          className="border-b border-slate-200/80 bg-gradient-to-b from-slate-50/80 to-white py-20 md:py-24"
+          className="border-b border-slate-200/80 bg-slate-50/50 py-20 md:py-24"
         >
           <div className="mx-auto max-w-6xl px-4 md:px-8">
-            <div className="mb-14 text-center">
-              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">
-                The complete journey
-              </p>
+            <div className="mb-10 text-center">
+              <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
               <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
                 One System to{" "}
                 <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
@@ -415,88 +411,46 @@ export default async function Home({ searchParams }: HomeProps) {
                 </span>{" "}
                 Patients
               </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-slate-600">
-                From first click to repeat visits — one integrated approach
-              </p>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-              {/* Attract */}
-              <div className="card-3d group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg hover:shadow-emerald-500/5 md:p-8">
-                <div className="absolute right-0 top-0 h-24 w-24 translate-x-8 -translate-y-8 rounded-full bg-emerald-100/60 blur-2xl transition group-hover:bg-emerald-100/80" />
-                <div className="relative">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25">
-                    <Target className="h-6 w-6" />
-                  </div>
-                  <span className="mb-1 inline-block rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
-                    Step 1
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-900">
-                    Attract
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Patient Acquisition
-                  </p>
-                  <ul className="mt-6 space-y-3">
-                    {["Google Ads for Clinics", "Local SEO & Google Business Profile optimisation", "Location-based lead campaigns"].map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-sm text-slate-700">
-                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-emerald-700">
+                  Patient Acquisition
+                </h3>
+                <ul className="mt-4 space-y-2">
+                  {["Google Ads for Clinics", "Local SEO & Google Business Profile optimisation", "Location-based lead campaigns"].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-slate-700">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {/* Convert */}
-              <div className="card-3d group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg hover:shadow-teal-500/5 md:p-8">
-                <div className="absolute right-0 top-0 h-24 w-24 translate-x-8 -translate-y-8 rounded-full bg-teal-100/60 blur-2xl transition group-hover:bg-teal-100/80" />
-                <div className="relative">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/25">
-                    <Zap className="h-6 w-6" />
-                  </div>
-                  <span className="mb-1 inline-block rounded-full bg-teal-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-700">
-                    Step 2
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-900">
-                    Convert
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Patient Conversion
-                  </p>
-                  <ul className="mt-6 space-y-3">
-                    {["High-converting clinic landing pages", "Online appointment booking system", "WhatsApp auto follow-ups"].map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-sm text-slate-700">
-                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-teal-500" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-emerald-700">
+                  Patient Conversion
+                </h3>
+                <ul className="mt-4 space-y-2">
+                  {["High-converting clinic landing pages", "Online appointment booking system", "WhatsApp auto follow-ups"].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-slate-700">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {/* Retain - spans full width on tablet, same as others on desktop */}
-              <div className="card-3d group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg hover:shadow-cyan-500/5 sm:col-span-2 md:p-8 lg:col-span-1">
-                <div className="absolute right-0 top-0 h-24 w-24 translate-x-8 -translate-y-8 rounded-full bg-cyan-100/60 blur-2xl transition group-hover:bg-cyan-100/80" />
-                <div className="relative">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-sky-600 text-white shadow-lg shadow-cyan-500/25">
-                    <RefreshCw className="h-6 w-6" />
-                  </div>
-                  <span className="mb-1 inline-block rounded-full bg-cyan-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cyan-700">
-                    Step 3
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-900">
-                    Retain
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Patient Retention
-                  </p>
-                  <ul className="mt-6 space-y-3">
-                    {["Review management", "Reminder messages", "Repeat visit automation"].map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-sm text-slate-700">
-                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-cyan-500" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:col-span-2 lg:col-span-1">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-emerald-700">
+                  Patient Retention
+                </h3>
+                <ul className="mt-4 space-y-2">
+                  {["Review management", "Reminder messages", "Repeat visit automation"].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-slate-700">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
@@ -689,33 +643,28 @@ export default async function Home({ searchParams }: HomeProps) {
               <div>
                 <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
                 <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-                  <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                    Stop Losing Patients
-                  </span>{" "}
-                  Due to Manual Booking
+                  One booking system, total control
                 </h2>
                 <p className="mt-4 text-lg text-slate-600">
-                  Patients today expect a smooth, digital experience.
+                  Reduce missed appointments, automate patient communication,
+                  and track every booking source. Patients book online
+                  seamlessly; staff manage schedules faster; doctors stay
+                  organised with clean dashboards.
                 </p>
-                <ul className="mt-6 space-y-3 text-slate-700">
+                <ul className="mt-6 space-y-2 text-slate-700">
                   {[
-                    "Instant online booking",
-                    "WhatsApp confirmations",
-                    "Automated reminder messages",
-                    "Easy rescheduling and cancellation",
-                    "Post-visit feedback reminders",
-                    "Telehealth / online consultation options",
+                    "Online booking and multi-channel intake",
+                    "Reserve with Google (RWG) integration",
+                    "WhatsApp automation and reminders",
+                    "Multi-doctor and multi-location scheduling",
+                    "Reporting dashboard and source tracking",
                   ].map((item) => (
-                    <li key={item} className="flex items-center gap-3">
-                      <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-500" />
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       {item}
                     </li>
                   ))}
                 </ul>
-                <p className="mt-6 text-slate-600">
-                  If your system cannot deliver this, patients quietly move to
-                  another clinic.
-                </p>
                 <a
                   href="#contact"
                   className="mt-6 inline-flex text-sm font-semibold text-emerald-600 hover:text-emerald-700"
@@ -834,52 +783,6 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
         </section>
 
-        {/* If You Don't Fix / If You Fix With TechDr */}
-        <section className="border-b border-slate-200/80 bg-white py-16 md:py-20">
-          <div className="mx-auto max-w-4xl px-4 md:px-8">
-            <div className="overflow-hidden rounded-2xl border border-slate-200/80 shadow-xl shadow-slate-200/50">
-              <div className="grid md:grid-cols-2">
-                <div className="border-b border-slate-200/80 bg-red-50/80 p-6 md:border-b-0 md:border-r md:p-8">
-                  <h3 className="text-base font-bold text-slate-800 md:text-lg">
-                    If you don&apos;t fix your digital system now
-                  </h3>
-                  <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                    {[
-                      "Competitors will outrank you",
-                      "Patients will book elsewhere",
-                      "Google Maps top 3 will stay locked",
-                      "Your ad budget will leak",
-                    ].map((item) => (
-                      <li key={item} className="flex gap-2">
-                        <span className="text-slate-400">×</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-gradient-to-br from-emerald-50 to-teal-50/80 p-6 md:p-8">
-                  <h3 className="text-base font-bold text-slate-900 md:text-lg">
-                    If you fix it with TechDr
-                  </h3>
-                  <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                    {[
-                      "Higher enquiry rate",
-                      "Automated booking",
-                      "Better patient trust",
-                      "Trackable ROI",
-                    ].map((item) => (
-                      <li key={item} className="flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Pricing - tabs */}
         <section
           id="pricing"
@@ -913,9 +816,6 @@ export default async function Home({ searchParams }: HomeProps) {
                   Clinic Growth Plan
                 </span>
               </h2>
-              <p className="mt-4 inline-block rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-900">
-                Free 10-minute strategy call. No sales pitch. Just clarity.
-              </p>
             </div>
             <form
               action="/api/clinic-growth"
