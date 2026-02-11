@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import { FaqSection } from "@/components/FaqSection";
+import { ClinicGrowthForm } from "@/components/ClinicGrowthForm";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
@@ -917,79 +918,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 Free 10-minute strategy call. No sales pitch. Just clarity.
               </p>
             </div>
-            <form
-              action="/api/clinic-growth"
-              method="POST"
-              className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"
-            >
-              <div>
-                <label className="block text-sm font-medium text-slate-700">
-                  Doctor / Clinic Name
-                </label>
-                <input
-                  type="text"
-                  name="clinicName"
-                  className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-                  placeholder="e.g. Dr Sharma Multi-Speciality Clinic"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-                  placeholder="Enter your WhatsApp / mobile number"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-                  placeholder="e.g. doctor@clinic.com"
-                  required
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    name="city"
-                    className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-                    placeholder="e.g. Hyderabad"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700">
-                    Speciality
-                  </label>
-                  <input
-                    type="text"
-                    name="speciality"
-                    className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-                    placeholder="e.g. Orthopedics, IVF, Dental"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
-              >
-                <span>📈 Get Free Consultation</span>
-              </button>
-              <p className="mt-2 text-center text-xs text-slate-500">
-                🔒 Your details are safe. No spam. Only healthcare experts will call.
-              </p>
-            </form>
+            <ClinicGrowthForm />
           </div>
         </section>
 

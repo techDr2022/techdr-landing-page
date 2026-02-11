@@ -3,12 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-
-declare global {
-  interface Window {
-    gtag: any;
-  }
-}
+import { trackGoogleAdsConversionOnce } from "@/lib/gtag";
 
 type DemoModalProps = {
   isOpen: boolean;
@@ -58,11 +53,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
       });
 
       if (response.ok) {
-        if (typeof window !== "undefined") {
-          window.gtag?.("event", "conversion", {
-            send_to: "AW-11117817231/kK86COugx_YbEI_bsbUp",
-          });
-        }
+        trackGoogleAdsConversionOnce();
         setSubmitted(true);
         setEmail("");
         setName("");
