@@ -20,6 +20,11 @@ export function FormToastHandler() {
 
   useEffect(() => {
     if (submitted === "1") {
+      if (typeof window !== "undefined") {
+        window.gtag?.("event", "conversion", {
+          send_to: "AW-11117817231/kK86COugx_YbEI_bsbUp",
+        });
+      }
       setShowSuccess(true);
     } else if (submitted === "0") {
       setShowError(true);

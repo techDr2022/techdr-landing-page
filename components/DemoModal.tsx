@@ -58,8 +58,8 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
       });
 
       if (response.ok) {
-        if (typeof window !== "undefined" && window.gtag) {
-          window.gtag("event", "conversion", {
+        if (typeof window !== "undefined") {
+          window.gtag?.("event", "conversion", {
             send_to: "AW-11117817231/kK86COugx_YbEI_bsbUp",
           });
         }
