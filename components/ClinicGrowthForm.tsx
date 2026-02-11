@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { trackGoogleAdsConversionOnce } from "@/lib/gtag";
 
 export function ClinicGrowthForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +28,12 @@ export function ClinicGrowthForm() {
       const isSuccess = finalUrl.searchParams.get("submitted") === "1";
 
       if (isSuccess) {
-        trackGoogleAdsConversionOnce();
+        if (typeof window !== "undefined") {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "techdr_lead_success",
+          });
+        }
       }
 
       if (response.redirected) {

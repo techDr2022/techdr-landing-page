@@ -3,23 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, Calendar } from "lucide-react";
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Button,
-  Input,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Card,
-  CardHeader,
-  CardBody,
-  Container,
-  Select as ChakraSelect,
-  Spinner,
-} from "@chakra-ui/react";
 import { WHATSAPP_NUMBER, WHATSAPP_PREFILL } from "@/lib/config";
 
 const serviceOptions = [
@@ -29,7 +12,12 @@ const serviceOptions = [
   "Not sure yet",
 ];
 
-function buildWhatsAppMessage(name: string, phone: string, clinic: string, service: string) {
+function buildWhatsAppMessage(
+  name: string,
+  phone: string,
+  clinic: string,
+  service: string,
+) {
   const text = [
     WHATSAPP_PREFILL,
     "",
@@ -46,7 +34,12 @@ export function CTAForm() {
   const [phone, setPhone] = useState("");
   const [clinic, setClinic] = useState("");
   const [service, setService] = useState("");
-  const [touched, setTouched] = useState({ name: false, phone: false, clinic: false, service: false });
+  const [touched, setTouched] = useState({
+    name: false,
+    phone: false,
+    clinic: false,
+    service: false,
+  });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -57,7 +50,8 @@ export function CTAForm() {
     service: !service && touched.service ? "Please select a service" : "",
   };
 
-  const isValid = !!name.trim() && !!phone.trim() && !!clinic.trim() && !!service;
+  const isValid =
+    !!name.trim() && !!phone.trim() && !!clinic.trim() && !!service;
 
   function handleBlur(field: keyof typeof touched) {
     setTouched((prev) => ({ ...prev, [field]: true }));
@@ -77,74 +71,197 @@ export function CTAForm() {
   }
 
   return (
-    <Box id="cta-form" borderTopWidth="1px" borderColor="gray.200" _dark={{ borderColor: "whiteAlpha.200" }} py={20} px={{ base: 4, sm: 6 }}>
-      <Container maxW="5xl">
-        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.4 }}>
-          <Box mb={14} textAlign="center">
-            <Heading as="h2" size="xl" fontWeight="semibold" letterSpacing="tight" mb={3}>Ready to grow your practice with TechDr?</Heading>
-            <Text maxW="xl" mx="auto" color="gray.600" _dark={{ color: "gray.400" }}>Share your details and we will get back with next steps.</Text>
-          </Box>
+    <section
+      id="cta-form"
+      className="border-t border-slate-200 bg-white py-20 px-4 sm:px-6"
+    >
+      <div className="mx-auto max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="mb-14 text-center">
+            <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
+              Ready to grow your practice with TechDr?
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600">
+              Share your details and we will get back with next steps.
+            </p>
+          </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.4, delay: 0.1 }}>
-          <Flex direction={{ base: "column", lg: "row" }} gap={8} align={{ lg: "flex-start" }} justify="center">
-            <Flex direction={{ base: "column", sm: "row", lg: "column" }} gap={4}>
-              <Button size="lg" colorScheme="teal" leftIcon={<MessageCircle size={20} />} as="a" href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <div className="flex flex-col items-start justify-center gap-8 lg:flex-row">
+            <div className="flex flex-col gap-4 sm:flex-row lg:flex-col">
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:bg-teal-500"
+              >
+                <MessageCircle size={20} />
                 WhatsApp Now
-              </Button>
-              <Button size="lg" variant="outline" colorScheme="teal" leftIcon={<Calendar size={20} />} as="a" href="#cta-form">
+              </a>
+              <a
+                href="#cta-form"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-teal-600 px-6 py-3 text-sm font-semibold text-teal-700 hover:bg-teal-50"
+              >
+                <Calendar size={20} />
                 Schedule a Call
-              </Button>
-            </Flex>
+              </a>
+            </div>
 
-            <Card flex={1} maxW="md" w="full" mx={{ base: "auto", lg: 0 }} borderWidth="1px" borderColor="gray.200" _dark={{ borderColor: "whiteAlpha.200" }} shadow="sm">
-              <CardHeader>
-                <Heading size="md">Quick enquiry</Heading>
-                <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={1}>We will use this to reach out and send the proposal if needed.</Text>
-              </CardHeader>
-              <CardBody>
+            <div className="w-full max-w-md flex-1 rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="border-b border-slate-200 px-6 py-4">
+                <h3 className="text-base font-semibold text-slate-900">
+                  Quick enquiry
+                </h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  We will use this to reach out and send the proposal if needed.
+                </p>
+              </div>
+              <div className="px-6 py-5">
                 {submitted ? (
-                  <Box rounded="lg" borderWidth="1px" borderColor="gray.200" bg="gray.50" p={6} textAlign="center" fontSize="sm" color="gray.600" _dark={{ borderColor: "whiteAlpha.200", bg: "whiteAlpha.50", color: "gray.400" }}>
-                    Thank you. We have opened WhatsApp with your details. Send the message to start the conversation.
-                  </Box>
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-600">
+                    Thank you. We have opened WhatsApp with your details. Send
+                    the message to start the conversation.
+                  </div>
                 ) : (
-                  <form onSubmit={handleSubmit}>
-                    <Flex direction="column" gap={4}>
-                      <FormControl isInvalid={!!errors.name}>
-                        <FormLabel htmlFor="name">Name</FormLabel>
-                        <Input id="name" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} onBlur={() => handleBlur("name")} borderColor={errors.name ? "red.500" : undefined} />
-                        <FormErrorMessage>{errors.name}</FormErrorMessage>
-                      </FormControl>
-                      <FormControl isInvalid={!!errors.phone}>
-                        <FormLabel htmlFor="phone">Phone</FormLabel>
-                        <Input id="phone" type="tel" placeholder="Your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} onBlur={() => handleBlur("phone")} borderColor={errors.phone ? "red.500" : undefined} />
-                        <FormErrorMessage>{errors.phone}</FormErrorMessage>
-                      </FormControl>
-                      <FormControl isInvalid={!!errors.clinic}>
-                        <FormLabel htmlFor="clinic">Clinic / Practice name</FormLabel>
-                        <Input id="clinic" placeholder="Clinic or hospital name" value={clinic} onChange={(e) => setClinic(e.target.value)} onBlur={() => handleBlur("clinic")} borderColor={errors.clinic ? "red.500" : undefined} />
-                        <FormErrorMessage>{errors.clinic}</FormErrorMessage>
-                      </FormControl>
-                      <FormControl isInvalid={!!errors.service}>
-                        <FormLabel>Service interested in</FormLabel>
-                        <ChakraSelect placeholder="Select..." value={service} onChange={(e) => setService(e.target.value)} onBlur={() => handleBlur("service")} borderColor={errors.service ? "red.500" : undefined}>
-                          {serviceOptions.map((opt) => (
-                            <option key={opt} value={opt}>{opt}</option>
-                          ))}
-                        </ChakraSelect>
-                        <FormErrorMessage>{errors.service}</FormErrorMessage>
-                      </FormControl>
-                      <Button type="submit" w="full" colorScheme="teal" disabled={submitting} leftIcon={submitting ? <Spinner size="sm" /> : undefined}>
-                        {submitting ? "Opening WhatsApp..." : "Send via WhatsApp"}
-                      </Button>
-                    </Flex>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-slate-800"
+                      >
+                        Name
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onBlur={() => handleBlur("name")}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-emerald-500/20 ${
+                          errors.name
+                            ? "border-red-500"
+                            : "border-slate-200 bg-slate-50 focus:border-emerald-500 focus:bg-white"
+                        }`}
+                        placeholder="Your name"
+                      />
+                      {errors.name && (
+                        <p className="mt-1 text-xs text-red-600">
+                          {errors.name}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-slate-800"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        onBlur={() => handleBlur("phone")}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-emerald-500/20 ${
+                          errors.phone
+                            ? "border-red-500"
+                            : "border-slate-200 bg-slate-50 focus:border-emerald-500 focus:bg-white"
+                        }`}
+                        placeholder="Your phone number"
+                      />
+                      {errors.phone && (
+                        <p className="mt-1 text-xs text-red-600">
+                          {errors.phone}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="clinic"
+                        className="block text-sm font-medium text-slate-800"
+                      >
+                        Clinic / Practice name
+                      </label>
+                      <input
+                        id="clinic"
+                        type="text"
+                        value={clinic}
+                        onChange={(e) => setClinic(e.target.value)}
+                        onBlur={() => handleBlur("clinic")}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-emerald-500/20 ${
+                          errors.clinic
+                            ? "border-red-500"
+                            : "border-slate-200 bg-slate-50 focus:border-emerald-500 focus:bg-white"
+                        }`}
+                        placeholder="Clinic or hospital name"
+                      />
+                      {errors.clinic && (
+                        <p className="mt-1 text-xs text-red-600">
+                          {errors.clinic}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="service"
+                        className="block text-sm font-medium text-slate-800"
+                      >
+                        Service interested in
+                      </label>
+                      <select
+                        id="service"
+                        value={service}
+                        onChange={(e) => setService(e.target.value)}
+                        onBlur={() => handleBlur("service")}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-emerald-500/20 ${
+                          errors.service
+                            ? "border-red-500"
+                            : "border-slate-200 bg-slate-50 focus:border-emerald-500 focus:bg-white"
+                        }`}
+                      >
+                        <option value="">Select...</option>
+                        {serviceOptions.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.service && (
+                        <p className="mt-1 text-xs text-red-600">
+                          {errors.service}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:bg-teal-500 disabled:opacity-70"
+                    >
+                      {submitting ? "Opening WhatsApp..." : "Send via WhatsApp"}
+                    </button>
                   </form>
                 )}
-              </CardBody>
-            </Card>
-          </Flex>
+              </div>
+            </div>
+          </div>
         </motion.div>
-      </Container>
-    </Box>
+      </div>
+    </section>
   );
 }

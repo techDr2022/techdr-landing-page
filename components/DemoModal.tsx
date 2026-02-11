@@ -3,7 +3,6 @@
 import { useState, FormEvent, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { trackGoogleAdsConversionOnce } from "@/lib/gtag";
 
 type DemoModalProps = {
   isOpen: boolean;
@@ -53,7 +52,12 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
       });
 
       if (response.ok) {
-        trackGoogleAdsConversionOnce();
+        if (typeof window !== "undefined") {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "techdr_lead_success",
+          });
+        }
         setSubmitted(true);
         setEmail("");
         setName("");

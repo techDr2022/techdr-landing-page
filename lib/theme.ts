@@ -23,12 +23,6 @@ export const theme = extendTheme({
     initialColorMode: "light",
     useSystemColorMode: false,
   },
-  styles: {
-    global: {
-      "html": { scrollBehavior: "smooth" },
-      "body": { fontFeatureSettings: '"rlig" 1, "calt" 1' },
-    },
-  },
   components: {
     Button: {
       defaultProps: {

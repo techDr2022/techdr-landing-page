@@ -21,8 +21,9 @@ export function FormToastHandler() {
   useEffect(() => {
     if (submitted === "1") {
       if (typeof window !== "undefined") {
-        window.gtag?.("event", "conversion", {
-          send_to: "AW-11117817231/kK86COugx_YbEI_bsbUp",
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "techdr_lead_success",
         });
       }
       setShowSuccess(true);

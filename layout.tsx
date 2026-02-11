@@ -1,55 +1,8 @@
-import type { Metadata } from "next";
-import type { ReactNode } from "react";
-import { Providers } from "./app/providers";
-import "./app/globals.css";
+// This file is only a thin re-export so that
+// the actual Next.js App Router layout in `app/layout.tsx`
+// is the single place that renders `<html>`, `<head>` and `<body>`.
+// Having multiple React trees with `<html>/<body>` can contribute
+// to hydration confusion in production.
 
-const siteUrl = "https://techdr.in";
-const siteName = "TechDr";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "TechDr | Healthcare Digital Growth Studio",
-    template: "%s | TechDr",
-  },
-  description:
-    "Healthcare-focused digital growth studio for doctors, clinics and hospitals. Marketing, SEO, ads, branding and booking systems trusted by 200+ healthcare clients.",
-  openGraph: {
-    title: "TechDr | Healthcare Digital Growth Studio",
-    description:
-      "TechDr helps doctors, clinics and hospitals attract more patients, automate bookings and build stronger healthcare brands.",
-    url: "/",
-    siteName,
-    type: "website",
-    locale: "en_IN",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "TechDr | Healthcare Digital Growth Studio",
-    description:
-      "Digital marketing, automation and branding for healthcare teams across India.",
-  },
-  alternates: {
-    canonical: "/",
-  },
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
-  },
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
-  return (
-    <html lang="en-IN" suppressHydrationWarning>
-      <head />
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  );
-}
+export { metadata } from "./app/layout";
+export { default } from "./app/layout";
