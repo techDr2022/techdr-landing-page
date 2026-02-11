@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Providers } from "./providers";
-import "./globals.css";
+import { Providers } from "./app/providers";
+import "./app/globals.css";
 
 const siteUrl = "https://techdr.in";
 const siteName = "TechDr";
