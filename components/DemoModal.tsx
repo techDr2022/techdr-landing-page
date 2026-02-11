@@ -4,6 +4,12 @@ import { useState, FormEvent, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
+declare global {
+  interface Window {
+    gtag: any;
+  }
+}
+
 type DemoModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -52,6 +58,11 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
       });
 
       if (response.ok) {
+        if (typeof window !== "undefined" && window.gtag) {
+          window.gtag("event", "conversion", {
+            send_to: "AW-11117817231/0ZMCCN6KwvYbEI_bsbUp",
+          });
+        }
         setSubmitted(true);
         setEmail("");
         setName("");
