@@ -1,15 +1,28 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { sendCustomerConfirmation } from "@/lib/email-customer";
+import { validateBusinessEmail } from "@/lib/email-validation";
 
 // Resend testing only allows sending to account email. Default: contact@techdr.in. Set RESEND_TO=info@techdr.in when domain is verified.
 const DEFAULT_NOTIFY_EMAIL = "contact@techdr.in";
 
-function redirectError(req: Request, code: "config" | "email_required" | "send_failed") {
+const RECAPTCHA_MIN_SCORE = 0.5;
+
+function redirectError(req: Request, code: "config" | "email_required" | "send_failed" | "recaptcha_failed" | "invalid_email") {
   const url = new URL("/", req.url);
   url.searchParams.set("submitted", "0");
   url.searchParams.set("error", code);
   return NextResponse.redirect(url, { status: 303 });
+}
+
+async function verifyRecaptcha(token: string, secret: string): Promise<{ success: boolean; score?: number }> {
+  const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ secret, response: token }),
+  });
+  const data = (await res.json()) as { success: boolean; score?: number; "error-codes"?: string[] };
+  return { success: !!data.success, score: data.score };
 }
 
 export async function POST(req: Request) {
@@ -24,23 +37,60 @@ export async function POST(req: Request) {
     const resend = new Resend(apiKey);
     const formData = await req.formData();
 
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    const recaptchaToken = (formData.get("g-recaptcha-response") || "") as string;
+    if (recaptchaSecret) {
+      if (!recaptchaToken?.trim()) {
+        console.error("reCAPTCHA token missing");
+        return redirectError(req, "recaptcha_failed");
+      }
+      const { success, score } = await verifyRecaptcha(recaptchaToken, recaptchaSecret);
+      if (!success || (typeof score === "number" && score < RECAPTCHA_MIN_SCORE)) {
+        console.error("reCAPTCHA verification failed or low score", { success, score });
+        return redirectError(req, "recaptcha_failed");
+      }
+    }
+
     const clinicName = (formData.get("clinicName") || "") as string;
     const phone = (formData.get("phone") || "") as string;
     const city = (formData.get("city") || "") as string;
     const speciality = (formData.get("speciality") || "") as string;
     const email = (formData.get("email") || "") as string;
+    const clinicType = (formData.get("clinicType") || "") as string;
+    const monthlyBudget = (formData.get("monthlyBudget") || "") as string;
+    const websiteLink = (formData.get("websiteLink") || "") as string;
 
     if (!email?.trim()) {
       console.error("Email is required");
+      return redirectError(req, "email_required");
+    }
+    const emailValidation = validateBusinessEmail(email);
+    if (!emailValidation.valid) {
+      console.error("Business email validation failed", emailValidation.reason);
+      return redirectError(req, "invalid_email");
+    }
+    if (!clinicType?.trim()) {
+      console.error("Clinic type is required");
+      return redirectError(req, "email_required");
+    }
+    if (!monthlyBudget?.trim()) {
+      console.error("Monthly marketing budget is required");
+      return redirectError(req, "email_required");
+    }
+    if (!city?.trim()) {
+      console.error("City is required");
       return redirectError(req, "email_required");
     }
 
     const html = `
       <h2>New Clinic Growth Plan Request</h2>
       <p><strong>Doctor / Clinic Name:</strong> ${clinicName || "-"}</p>
+      <p><strong>Clinic Type:</strong> ${clinicType || "-"}</p>
+      <p><strong>Monthly Marketing Budget:</strong> ${monthlyBudget || "-"}</p>
+      <p><strong>City:</strong> ${city || "-"}</p>
+      <p><strong>Website / Google Maps Link:</strong> ${websiteLink ? `<a href="${websiteLink}">${websiteLink}</a>` : "-"}</p>
       <p><strong>Phone:</strong> ${phone || "-"}</p>
       <p><strong>Email:</strong> ${email || "-"}</p>
-      <p><strong>City:</strong> ${city || "-"}</p>
       <p><strong>Speciality:</strong> ${speciality || "-"}</p>
     `;
 

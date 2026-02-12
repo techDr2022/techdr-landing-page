@@ -8,6 +8,9 @@ const ERROR_MESSAGES: Record<string, string> = {
   config: "Service is temporarily unavailable. Please try again later or contact us.",
   email_required: "Please enter your email address.",
   send_failed: "Something went wrong. Please try again in a moment.",
+  recaptcha_failed: "Security check failed. Please refresh the page and try again.",
+  invalid_email:
+    "Please use a business or professional email (e.g. clinicname@gmail.com). We don’t accept disposable emails, test addresses, or very short names.",
 };
 
 export function FormToastHandler() {

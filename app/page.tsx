@@ -72,7 +72,7 @@ export default async function Home({ searchParams }: HomeProps) {
               Contact
             </a>
           </nav>
-          {/* Desktop actions */}
+          {/* Desktop actions – primary CTA goes to same form (same friction) */}
           <div className="hidden items-center gap-3 md:flex">
             <a
               href="tel:+919542218454"
@@ -80,15 +80,21 @@ export default async function Home({ searchParams }: HomeProps) {
             >
               Talk to Expert
             </a>
-            <DemoButton className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40">
-              Book a Demo
-            </DemoButton>
+            <a
+              href="#growth-form"
+              className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+            >
+              Get Free Consultation
+            </a>
           </div>
-          {/* Mobile action */}
+          {/* Mobile action – same form friction */}
           <div className="flex items-center gap-2 md:hidden">
-            <DemoButton className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40">
-              Book a Demo
-            </DemoButton>
+            <a
+              href="#growth-form"
+              className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+            >
+              Get Free Consultation
+            </a>
           </div>
         </div>
         {/* Mobile nav stripe with section links - inside header so it sticks together */}
@@ -904,7 +910,7 @@ export default async function Home({ searchParams }: HomeProps) {
         </section>
 
         {/* Get a Free Clinic Growth Plan */}
-        <section className="border-b border-slate-200/80 bg-slate-50/50 py-16 md:py-20">
+        <section id="growth-form" className="border-b border-slate-200/80 bg-slate-50/50 py-16 md:py-20">
           <div className="mx-auto max-w-xl px-4 md:px-0">
             <div className="mb-8 text-center">
               <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
@@ -993,71 +999,6 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
         </div>
       </footer>
-
-      {/* Sticky call / WhatsApp – mobile: icons, desktop: text buttons */}
-      {/* Mobile icons */}
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:hidden">
-        <a
-          href="tel:+919542218454"
-          aria-label="Call us"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
-        >
-          <Image
-            src="/phone-call.png"
-            alt="Call us"
-            width={22}
-            height={22}
-            className="h-[22px] w-[22px] object-contain"
-          />
-        </a>
-        <a
-          href={whatsappLink}
-          aria-label="WhatsApp us"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
-        >
-          <Image
-            src="/whatsapp.png"
-            alt="WhatsApp us"
-            width={22}
-            height={22}
-            className="h-[22px] w-[22px] object-contain"
-          />
-        </a>
-      </div>
-
-      {/* Desktop pill buttons with text */}
-      <div className="fixed bottom-6 right-6 z-40 hidden flex-col items-end gap-3 md:flex">
-        <a
-          href="tel:+919542218454"
-          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
-        >
-          <Image
-            src="/phone-call.png"
-            alt="Call us"
-            width={18}
-            height={18}
-            className="h-[18px] w-[18px] object-contain"
-          />
-          <span>Call us</span>
-        </a>
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-md shadow-slate-300/60 transition hover:border-slate-400 hover:bg-slate-50"
-        >
-          <Image
-            src="/whatsapp.png"
-            alt="WhatsApp us"
-            width={18}
-            height={18}
-            className="h-[18px] w-[18px] object-contain"
-          />
-          <span>WhatsApp us</span>
-        </a>
-      </div>
     </div>
   );
 }
