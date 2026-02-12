@@ -60,6 +60,20 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-KB38BGR5');
           `}
         </Script>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-11117817231"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-11117817231');
+          `}
+        </Script>
         {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
           <Script
             src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
