@@ -15,14 +15,29 @@ function redirectError(req: Request, code: "config" | "email_required" | "send_f
   return NextResponse.redirect(url, { status: 303 });
 }
 
-async function verifyRecaptcha(token: string, secret: string): Promise<{ success: boolean; score?: number }> {
+async function verifyRecaptcha(
+  token: string,
+  secret: string
+): Promise<{ success: boolean; score?: number; errorCodes?: string[] }> {
   const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ secret, response: token }),
   });
-  const data = (await res.json()) as { success: boolean; score?: number; "error-codes"?: string[] };
-  return { success: !!data.success, score: data.score };
+  const data = (await res.json()) as {
+    success: boolean;
+    score?: number;
+    "error-codes"?: string[];
+  };
+  const errorCodes = data["error-codes"];
+  if (errorCodes?.length) {
+    console.error("reCAPTCHA verify error-codes:", errorCodes);
+  }
+  return {
+    success: !!data.success,
+    score: data.score,
+    errorCodes,
+  };
 }
 
 export async function POST(req: Request) {
@@ -44,9 +59,13 @@ export async function POST(req: Request) {
         console.error("reCAPTCHA token missing");
         return redirectError(req, "recaptcha_failed");
       }
-      const { success, score } = await verifyRecaptcha(recaptchaToken, recaptchaSecret);
+      const { success, score, errorCodes } = await verifyRecaptcha(recaptchaToken, recaptchaSecret);
       if (!success || (typeof score === "number" && score < RECAPTCHA_MIN_SCORE)) {
-        console.error("reCAPTCHA verification failed or low score", { success, score });
+        console.error("reCAPTCHA verification failed or low score", {
+          success,
+          score,
+          errorCodes,
+        });
         return redirectError(req, "recaptcha_failed");
       }
     }

@@ -21,11 +21,34 @@ export function ClinicGrowthForm() {
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   const getRecaptchaToken = useCallback((): Promise<string | null> => {
-    if (!siteKey || typeof window === "undefined" || !window.grecaptcha) return Promise.resolve(null);
+    if (!siteKey || typeof window === "undefined") return Promise.resolve(null);
     return new Promise((resolve) => {
-      window.grecaptcha!.ready(() => {
-        window.grecaptcha!.execute(siteKey, { action: RECAPTCHA_ACTION }).then(resolve);
-      });
+      const run = () => {
+        if (!window.grecaptcha) {
+          resolve(null);
+          return;
+        }
+        window.grecaptcha.ready(() => {
+          window.grecaptcha!.execute(siteKey, { action: RECAPTCHA_ACTION }).then(resolve).catch(() => resolve(null));
+        });
+      };
+      if (window.grecaptcha) {
+        run();
+      } else {
+        const deadline = Date.now() + 8000;
+        const check = () => {
+          if (window.grecaptcha) {
+            run();
+            return;
+          }
+          if (Date.now() < deadline) {
+            setTimeout(check, 200);
+          } else {
+            resolve(null);
+          }
+        };
+        setTimeout(check, 100);
+      }
     });
   }, [siteKey]);
 
@@ -50,7 +73,13 @@ export function ClinicGrowthForm() {
       const formData = new FormData(form);
 
       const token = await getRecaptchaToken();
-      if (token) formData.set("g-recaptcha-response", token);
+      if (token) {
+        formData.set("g-recaptcha-response", token);
+      } else if (siteKey) {
+        setError("Security check is still loading. Please wait a moment and try again.");
+        setIsSubmitting(false);
+        return;
+      }
 
       const response = await fetch("/api/clinic-growth", {
         method: "POST",

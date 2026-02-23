@@ -4,7 +4,7 @@ import Script from "next/script";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const siteUrl = "https://techdr.in";
+const siteUrl = "https://growth.techdr.in";
 const siteName = "TechDr";
 
 export const metadata: Metadata = {
