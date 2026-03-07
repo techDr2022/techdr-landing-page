@@ -1,36 +1,43 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { BangaloreGmbForm } from "@/components/BangaloreGmbForm";
-import { BangaloreGmbFaq } from "@/components/BangaloreGmbFaq";
-import { SearchAnimationDemo } from "@/components/SearchAnimationDemo";
+import { GoogleAdsBangaloreForm } from "@/components/GoogleAdsBangaloreForm";
+import { GoogleAdsBangaloreFaq } from "@/components/GoogleAdsBangaloreFaq";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
 import { doctors } from "@/app/data/doctors";
-import { CheckCircle2, MapPin, FileText, Star, TrendingUp, BarChart3 } from "lucide-react";
+import {
+  CheckCircle2,
+  Target,
+  FileText,
+  MousePointerClick,
+  BarChart3,
+  Megaphone,
+  TrendingUp,
+} from "lucide-react";
 
 const siteUrl = "https://growth.techdr.in";
 
 export const metadata = {
-  title: "Google Business Profile Management for Doctors in Bangalore | TechDr",
+  title: "Google Ads for Doctors in Bangalore | TechDr",
   description:
-    "Professional Google Business Profile management + Local SEO for doctors in Bangalore from ₹6,999/month.",
+    "Get more patients with Google Ads in Bangalore. Healthcare-focused paid search, keyword targeting & conversion tracking for doctors and clinics.",
   openGraph: {
-    title: "Google Business Profile Management for Doctors in Bangalore | TechDr",
+    title: "Google Ads for Doctors in Bangalore | TechDr",
     description:
-      "Get your clinic discovered on Google Maps in Bangalore. TechDr offers GBP management, review growth, weekly posts & local SEO for doctors.",
-    url: "/gmb-bangalore",
+      "Reach patients searching for doctors on Google. TechDr runs healthcare-focused Google Ads campaigns for clinics in Bangalore.",
+    url: "/google-ads-bangalore",
     siteName: "TechDr",
     type: "website",
     locale: "en_IN",
   },
   alternates: {
-    canonical: `${siteUrl}/gmb-bangalore`,
+    canonical: `${siteUrl}/google-ads-bangalore`,
   },
 };
 
-export default function GmbBangalorePage() {
+export default function GoogleAdsBangalorePage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <Suspense fallback={null}>
@@ -48,8 +55,8 @@ export default function GmbBangalorePage() {
             />
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
-            <a href="#why-gbp" className="transition hover:text-slate-900">
-              Why GBP
+            <a href="#why-google-ads" className="transition hover:text-slate-900">
+              Why Google Ads
             </a>
             <a href="#what-you-get" className="transition hover:text-slate-900">
               What You Get
@@ -82,7 +89,7 @@ export default function GmbBangalorePage() {
       </header>
 
       <main>
-        {/* Hero - left content, right counter card */}
+        {/* Hero */}
         <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-slate-50 via-white to-white">
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute left-1/2 top-20 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-br from-emerald-200/30 via-teal-100/20 to-cyan-200/30 blur-3xl" />
@@ -92,41 +99,34 @@ export default function GmbBangalorePage() {
             <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-16">
               <div className="space-y-6">
                 <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-                  Rank Your Clinic on{" "}
+                  Get More Patients with{" "}
                   <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                    Google Maps
+                    Google Ads
                   </span>{" "}
                   in Bangalore
                 </h1>
                 <p className="max-w-xl text-lg text-slate-600">
-                  Get your clinic discovered by patients searching on Google Maps and local search.
+                  Reach patients the moment they search for doctors, treatments, or clinics on Google.
                 </p>
                 <p className="max-w-xl text-base font-semibold text-slate-700">
-                  Professional <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> Management + Local SEO for Doctors
-                </p>
-                <p className="text-2xl font-bold text-slate-900">
-                  Only <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">₹6,999</span> / month
+                  Healthcare-focused <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Ads</span> - keyword targeting, ad copy & conversion tracking for doctors
                 </p>
                 <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                    Google Maps ranking improvement
+                    Search ads for doctor & treatment keywords
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                    Review growth & reputation management
+                    Bangalore & local area targeting
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                    Weekly Google posts
+                    Calls, WhatsApp & form leads
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                    Local SEO optimisation
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                    Monthly reports
+                    Monthly reports & optimisation
                   </li>
                 </ul>
                 <div className="flex flex-wrap gap-4 pt-2">
@@ -140,18 +140,17 @@ export default function GmbBangalorePage() {
                     href="#consultation"
                     className="inline-flex rounded-full border-2 border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
                   >
-                    Get My Clinic Ranked
+                    Get a Custom Quote
                   </a>
                 </div>
               </div>
 
-              {/* Right side - counter / snapshot card */}
               <div className="relative">
                 <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-400/20 to-teal-400/20 blur-2xl animate-pulse" />
                 <div className="card-3d relative rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-200/50">
                   <div className="mb-4 flex items-center justify-between">
                     <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      GBP impact snapshot
+                      Google Ads impact
                     </span>
                     <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 animate-pulse">
                       Live
@@ -159,9 +158,9 @@ export default function GmbBangalorePage() {
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     {[
-                      { label: "Maps visibility", value: "+156%", sub: "Local search", delay: 0 },
-                      { label: "Patient enquiries", value: "2.8×", sub: "Calls & WhatsApp", delay: 150 },
-                      { label: "Review growth", value: "45%+", sub: "More ratings", delay: 300 },
+                      { label: "Search visibility", value: "Top", sub: "Ad positions", delay: 0 },
+                      { label: "Lead volume", value: "2.5×", sub: "Calls & forms", delay: 150 },
+                      { label: "Cost per lead", value: "-35%", sub: "Optimised over time", delay: 300 },
                     ].map((item) => (
                       <div
                         key={item.label}
@@ -204,40 +203,26 @@ export default function GmbBangalorePage() {
           </div>
         </section>
 
-        {/* Why Google Business Profile is Critical - left content, right animation */}
+        {/* Why Google Ads for Doctors */}
         <section
-          id="why-gbp"
+          id="why-google-ads"
           className="border-b border-slate-200/80 bg-white py-12 sm:py-16 md:py-20"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12 xl:gap-16">
-              {/* Left: content (first on mobile) */}
-              <div className="min-w-0">
-                <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
-                <h2 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-4xl">
-                  Why <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> is Critical for Doctors
-                </h2>
-                <p className="mt-5 text-base text-slate-600 sm:mt-6 sm:text-lg">
-                  When patients search on Google - &ldquo;Dermatologist near me&rdquo;, &ldquo;Best gynecologist in Bangalore&rdquo;, &ldquo;Orthopedic doctor near me&rdquo; - Google shows Google Maps results first.
-                </p>
-                <p className="mt-4 text-base text-slate-600 sm:text-lg">
-                  Clinics <strong>ranking in the top 3 map results</strong> receive the majority of patient calls and enquiries. Without proper optimisation, your clinic may not appear where patients are searching.
-                </p>
-                <p className="mt-4 text-base font-medium text-slate-700 sm:text-lg">
-                  TechDr helps doctors improve visibility, credibility, and patient enquiries through structured <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> management.
-                </p>
-              </div>
-              {/* Right: animation (second on mobile, full width) */}
-              <div className="flex w-full justify-center lg:justify-end">
-                <div className="w-full min-w-0 max-w-full lg:max-w-xl">
-                  <SearchAnimationDemo />
-                </div>
-              </div>
-            </div>
+            <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
+            <h2 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-4xl">
+              Why <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Ads</span> Works for Doctors in Bangalore
+            </h2>
+            <p className="mt-5 text-base text-slate-600 sm:mt-6 sm:text-lg max-w-3xl">
+              When patients search &ldquo;dermatologist near me&rdquo;, &ldquo;best gynecologist in Bangalore&rdquo;, or &ldquo;orthopedic doctor&rdquo;, they see Google search results first. Organic results take time to rank; <strong>Google Ads</strong> puts your clinic in front of these patients immediately - with healthcare-specific keywords, ad copy, and landing pages that drive calls and bookings.
+            </p>
+            <p className="mt-4 text-base text-slate-600 sm:text-lg max-w-3xl">
+              TechDr runs <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent font-medium">healthcare-focused Google Ads campaigns</span> for doctors and clinics in Bangalore, with clear tracking of calls, form leads, and cost per enquiry.
+            </p>
           </div>
         </section>
 
-        {/* What You Get for ₹6,999 per Month */}
+        {/* What You Get */}
         <section
           id="what-you-get"
           className="border-b border-slate-200/80 bg-slate-50/50 py-16 md:py-20"
@@ -246,59 +231,70 @@ export default function GmbBangalorePage() {
             <div className="mb-12 text-center">
               <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
               <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-                What You Get for <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">₹6,999</span> per Month
+                What You Get
               </h2>
-              <p className="mt-2 text-slate-600">Complete <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> Management</p>
+              <p className="mt-2 text-slate-600">Complete Google Ads management for healthcare</p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  title: "Profile Optimisation",
-                  icon: MapPin,
+                  title: "Campaign setup & strategy",
+                  icon: Megaphone,
                   items: [
-                    "Business category optimisation",
-                    "Services & treatment listing",
-                    "Keyword optimisation",
-                    "Location SEO targeting",
+                    "Healthcare keyword research",
+                    "Bangalore & location targeting",
+                    "Search & Performance Max options",
+                    "Budget and bid strategy",
                   ],
                 },
                 {
-                  title: "Weekly Google Posts",
+                  title: "Ad copy & creatives",
                   icon: FileText,
                   items: [
-                    "Health awareness posts",
-                    "Service promotion posts",
-                    "Patient education content",
-                    "Event & update posts",
+                    "Doctor- and treatment-focused headlines",
+                    "Responsive search ads",
+                    "Extensions (call, location, sitelinks)",
+                    "Compliance with healthcare guidelines",
                   ],
                 },
                 {
-                  title: "Review Management",
-                  icon: Star,
+                  title: "Landing pages & conversion",
+                  icon: MousePointerClick,
                   items: [
-                    "Review response optimisation",
-                    "Strategy to increase patient reviews",
-                    "Reputation monitoring",
+                    "Mobile-friendly landing pages",
+                    "Call and WhatsApp buttons",
+                    "Form capture for enquiries",
+                    "Conversion tracking setup",
                   ],
                 },
                 {
-                  title: "Local SEO Improvements",
-                  icon: TrendingUp,
+                  title: "Keyword & audience targeting",
+                  icon: Target,
                   items: [
-                    "Keyword optimisation for Bangalore searches",
-                    "Competitor analysis",
-                    "Maps ranking improvements",
-                    "Local relevance signals",
+                    "Doctor, speciality & treatment keywords",
+                    "Location-based targeting",
+                    "Audience refinement",
+                    "Negative keywords to reduce waste",
                   ],
                 },
                 {
-                  title: "Performance Monitoring",
+                  title: "Tracking & reporting",
                   icon: BarChart3,
                   items: [
-                    "Visibility tracking",
-                    "Search insights analysis",
-                    "Monthly reports",
-                    "Improvement recommendations",
+                    "Calls, form leads & WhatsApp tracking",
+                    "Cost per lead reporting",
+                    "Monthly performance reports",
+                    "Optimisation recommendations",
+                  ],
+                },
+                {
+                  title: "Ongoing optimisation",
+                  icon: TrendingUp,
+                  items: [
+                    "Bid and budget adjustments",
+                    "Ad copy testing",
+                    "Keyword expansion",
+                    "Quality score improvement",
                   ],
                 },
               ].map(({ title, icon: Icon, items }) => (
@@ -354,13 +350,12 @@ export default function GmbBangalorePage() {
               ))}
             </div>
             <p className="mt-8 mx-auto max-w-2xl text-center text-slate-600">
-              Our strategies are designed specifically for healthcare search behaviour. Instead of
-              generic marketing, we focus on local patient discovery and enquiry generation.
+              Our Google Ads strategies are built for healthcare search behaviour and patient intent - not generic lead gen. We focus on quality enquiries, call tracking, and transparent reporting.
             </p>
           </div>
         </section>
 
-        {/* Results Doctors Typically See – outcome cards style */}
+        {/* Results */}
         <section className="relative overflow-hidden border-b border-slate-200/80 py-16 md:py-20">
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40" />
           <div className="relative mx-auto max-w-6xl px-4 md:px-8">
@@ -372,36 +367,16 @@ export default function GmbBangalorePage() {
                 <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Results</span> Doctors Typically See
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-slate-600">
-                After consistent optimisation, clinics often experience:
+                With consistent optimisation, clinics often see:
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
               {[
-                {
-                  label: "Increased Google Maps visibility",
-                  icon: MapPin,
-                  accent: "emerald",
-                },
-                {
-                  label: "More patient calls and WhatsApp enquiries",
-                  icon: BarChart3,
-                  accent: "teal",
-                },
-                {
-                  label: "Higher review count and rating credibility",
-                  icon: Star,
-                  accent: "amber",
-                },
-                {
-                  label: "Improved local search rankings",
-                  icon: TrendingUp,
-                  accent: "emerald",
-                },
-                {
-                  label: "Better patient trust online",
-                  icon: CheckCircle2,
-                  accent: "teal",
-                },
+                { label: "More patient calls and WhatsApp enquiries", icon: BarChart3, accent: "teal" },
+                { label: "Higher visibility for key treatment searches", icon: Target, accent: "emerald" },
+                { label: "Measurable cost per lead", icon: TrendingUp, accent: "emerald" },
+                { label: "Faster new-patient acquisition", icon: CheckCircle2, accent: "teal" },
+                { label: "Better ROI with healthcare-specific targeting", icon: Megaphone, accent: "amber" },
               ].map(({ label, icon: Icon, accent }) => (
                 <div
                   key={label}
@@ -418,9 +393,7 @@ export default function GmbBangalorePage() {
                   >
                     <Icon className="h-5 w-5" />
                   </span>
-                  <p className="pt-1.5 text-sm font-medium leading-snug text-slate-800">
-                    {label}
-                  </p>
+                  <p className="pt-1.5 text-sm font-medium leading-snug text-slate-800">{label}</p>
                 </div>
               ))}
             </div>
@@ -437,15 +410,15 @@ export default function GmbBangalorePage() {
               </h2>
             </div>
             <p className="mx-auto max-w-2xl text-center text-slate-600 mb-8">
-              This service is ideal for:
+              Google Ads is ideal for:
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               {[
-                "New clinics in Bangalore",
-                "Doctors struggling to rank on Google Maps",
-                "Clinics with few reviews",
-                "Clinics wanting more local patient enquiries",
-                "Healthcare brands expanding to new locations",
+                "Doctors and clinics in Bangalore",
+                "New practices needing quick visibility",
+                "Clinics wanting more calls and bookings",
+                "Specialities with high search volume",
+                "Healthcare brands with a defined ad budget",
               ].map((item) => (
                 <span
                   key={item}
@@ -458,7 +431,7 @@ export default function GmbBangalorePage() {
           </div>
         </section>
 
-        {/* Simple Monthly Pricing – one section */}
+        {/* Pricing – custom quote */}
         <section
           id="pricing"
           className="border-b border-slate-200/80 bg-slate-50/50 py-16 md:py-20"
@@ -467,81 +440,47 @@ export default function GmbBangalorePage() {
             <div className="mb-10 text-center">
               <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
               <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-                Simple Monthly Pricing
+                Transparent, Custom Pricing
               </h2>
-              <p className="mt-2 text-slate-600">
-                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent font-semibold">Google Business Profile</span> Management
+              <p className="mt-2 text-slate-600 max-w-xl mx-auto">
+                Google Ads budgets vary by speciality and goals. We offer a management fee + your ad spend, with clear reporting on every rupee.
               </p>
             </div>
-            <div className="mx-auto grid max-w-4xl gap-6 sm:gap-8 lg:grid-cols-2 lg:max-w-5xl">
-              {/* Monthly plan */}
-              <div className="rounded-2xl border-2 border-slate-200/80 bg-white p-6 shadow-lg sm:p-8">
-                <h3 className="text-lg font-bold text-slate-900 sm:text-xl">
-                  Monthly
-                </h3>
-                <p className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                  <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">₹6,999</span> / month
-                </p>
-                <ul className="mt-5 space-y-2 text-slate-600 sm:mt-6">
-                  {[
-                    "Google profile optimisation",
-                    "Weekly posts",
-                    "Review management",
-                    "Local SEO improvements",
-                    "Daily SEO-based content updates (500–1,200 characters)",
-                    "Monthly reports",
-                    "Monthly performance review",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-5 text-sm font-medium text-slate-500 sm:mt-6">
-                  No long-term contracts.
-                </p>
-              </div>
-
-              {/* Yearly plan – 10% discount */}
-              <div className="relative rounded-2xl border-2 border-emerald-200/80 bg-white p-6 shadow-lg shadow-emerald-500/10 sm:p-8">
-                <span className="absolute right-4 top-4 rounded-full bg-emerald-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white sm:right-6 sm:top-6">
-                  Save 10%
-                </span>
-                <h3 className="text-lg font-bold text-slate-900 sm:text-xl">
-                  Annual
-                </h3>
-                <p className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                  <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">₹75,589</span> / year
-                </p>
-                <p className="mt-1 text-sm text-slate-500">
-                  ₹6,299/month when billed annually
-                </p>
-                <ul className="mt-5 space-y-2 text-slate-600 sm:mt-6">
-                  {[
-                    "Google profile optimisation",
-                    "Weekly posts",
-                    "Review management",
-                    "Local SEO improvements",
-                    "Daily SEO-based content updates (500–1,200 characters)",
-                    "Monthly reports",
-                    "Monthly performance review",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-5 text-sm font-medium text-slate-500 sm:mt-6">
-                  Billed annually. Save 10% vs monthly.
-                </p>
-              </div>
+            <div className="mx-auto max-w-2xl rounded-2xl border-2 border-emerald-200/80 bg-white p-8 shadow-lg shadow-emerald-500/10">
+              <h3 className="text-xl font-bold text-slate-900">
+                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Ads</span> Management for Doctors
+              </h3>
+              <p className="mt-3 text-slate-600">
+                Custom plan based on your budget and goals. Includes campaign setup, keyword strategy, ad copy, conversion tracking, and monthly optimisation.
+              </p>
+              <ul className="mt-5 space-y-2 text-slate-600">
+                {[
+                  "Healthcare keyword research & targeting",
+                  "Ad copy & extensions",
+                  "Landing page & conversion setup",
+                  "Call, form & WhatsApp tracking",
+                  "Monthly reports & optimisation",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-sm font-medium text-slate-500">
+                No long-term lock-in. Get a custom quote after a free strategy call.
+              </p>
+              <a
+                href="#consultation"
+                className="mt-6 inline-flex rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+              >
+                Book Free Consultation & Get Quote
+              </a>
             </div>
           </div>
         </section>
 
-        {/* Book Free Consultation – separate section below */}
+        {/* Book Free Consultation */}
         <section
           id="consultation"
           className="border-b border-slate-200/80 bg-white py-16 md:py-20"
@@ -553,10 +492,10 @@ export default function GmbBangalorePage() {
                 Book Free Consultation
               </h2>
               <p className="mt-4 text-slate-600">
-                Want your clinic to rank on Google Maps in Bangalore? Start with a free strategy call.
+                Want to run Google Ads for your clinic in Bangalore? Start with a free strategy call and custom quote.
               </p>
             </div>
-            <BangaloreGmbForm />
+            <GoogleAdsBangaloreForm />
           </div>
         </section>
 
@@ -572,7 +511,7 @@ export default function GmbBangalorePage() {
                 FAQ
               </h2>
             </div>
-            <BangaloreGmbFaq />
+            <GoogleAdsBangaloreFaq />
           </div>
         </section>
 
@@ -581,10 +520,10 @@ export default function GmbBangalorePage() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(16,185,129,0.15),transparent)]" />
           <div className="relative mx-auto max-w-4xl px-4 text-center md:px-8">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Want Your Clinic to Rank on Google Maps in Bangalore?
+              Ready to Get More Patients with Google Ads in Bangalore?
             </h2>
             <p className="mt-4 text-lg text-slate-300">
-              Start improving your Google visibility and attract more local patients.
+              Book a free strategy call and get a custom plan for your clinic.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <a
@@ -612,7 +551,7 @@ export default function GmbBangalorePage() {
               <Link href="/" className="font-semibold text-slate-700 hover:text-slate-900">
                 TechDr
               </Link>{" "}
-              – <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> Management for Doctors in Bangalore
+              – <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Ads</span> for Doctors in Bangalore
             </p>
             <p className="text-sm text-slate-700 md:text-xs">
               <a href="tel:+919542218454" className="font-medium hover:text-slate-900">
