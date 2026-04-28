@@ -5,7 +5,7 @@ function doctorImagePath(filename: string): string {
 }
 
 function parseFilename(filename: string): { name: string; specialization: string } {
-  const base = filename.replace(/\.png$/i, "");
+  const base = filename.replace(/\.(png|webp|jpg|jpeg)$/i, "");
   const parts = base.split(" - ");
   if (parts.length === 1) return { name: base, specialization: "" };
   if (parts.length === 2) return { name: parts[0].trim(), specialization: parts[1].trim() };
@@ -31,11 +31,11 @@ const DOCTOR_FILES = [
   "DR avani reddy - Gynecologist.png",
   "Dr Deepa Reddy  Radiologist.png",
   "DR divya  - Dermatologist.png",
+  "Dr Harinath Reddy  General Physician.png",
   "Dr jagdish pusa - orthopedic surgeon - UNO Clinic.png",
   "DR JASMIN RATH Obstetrician & Gynecologist  - Apollo Cradle.png",
   "Dr keerthana urologist - Susheela Hospitals.png",
   "Dr Kiran jogu - Gastroenterologist.png",
-  "dr kiran reddy - othopedic - Kindle clinic.png",
   "Dr Kotha Sruthi Reddy  Gynecologist, Fertility Specialist & Laparoscopic Surgeon.png",
   "Dr M Raga Sirisha - Gynecologist.png",
   "Dr Madhuri - Dermatologist.png",
@@ -52,61 +52,67 @@ const DOCTOR_FILES = [
   "Dr Vinay Kumar Orthopedician, Trauma & Joint Replacement Expert.png",
   "Dr Aazadh - Surgical Oncologist.png",
   "Dr. ALDI BHAVANA  Physician & Diabetologist.png",
+  "Dr. A.Rama Krishnudu - Cardiologist.webp",
+  "Dr. Ankith Yarlagadda - Plastic surgeon .webp",
+  "Dr. Bhamini Guttikonda - Dermatologist.webp",
   "Dr. Dheemanth Reddy -Neurologist - Neumed clinics.png",
+  "Dr. Divya Bandari - Orthopedic Surgeon.webp",
+  "Dr. Divya Banswada - Dermatologist - SKINNU Clinic.webp",
   "Dr. Guduru Ashwini - Pediatrician & Newborn Specialist. - Avila Clinic.png",
+  "Dr. K. Sowmya Reddy MBBS, MS(OBG), DGO Gold Medalist.webp",
   "Dr. M Sravani Reddy -  Gynecologist - Vedica Clinic.png",
+  "Dr. MD Sabir Pasha - General Surgeon .webp",
   "Dr. Pallavi Reddy Mekala  Obstetrician & Gynecologist - ONEDORS Clinic.png",
   "Dr. Pampana Priyadarshini - Gynecologist - Avila clinic.png",
+  "Dr. Pavan Kumar Golla- orthopedic surgeon.webp",
+  "Dr. Ranjith G MD, DM (Neurology), FSIN.webp",
+  "Dr. Sai Manasa Darla - gynecology, fertility expert.webp",
   "DR. SRUTHI REDDY CHADA - Neurologist - Jade Clinic.png",
   "Dr. T Rajashekar Reddy - Pediatrics.png",
   "Dr. Venu Bhargava Surgical gastroenterology  - Apollo Hospital.png",
   "Dr.ANUSHA MALLARAPU Gynecologist - Jade Clinic.png",
   "Dr.G. Stitha Pragna - Hemato-Oncologist Bone Marrow Transplant Physician - Continental Hospital.png",
+  "Dr.Keerthi Sudireddy - Endodontist and Implantologist - Tooth Studio Clinic.png",
+  "Naga teja.png",
   "Srikanth - Urologist.png",
 ];
 
-/** SEO-focused testimonials: TechDr, healthcare growth, visibility, bookings, trust */
-const TESTIMONIALS: string[] = [
-  "TechDr boosted my urology practice visibility. More patients find me on Google and book online.",
-  "Our gastroenterology practice saw real growth with TechDr - better local SEO and patient enquiries.",
-  "TechDr’s digital marketing and booking system helped my surgical practice reach more patients.",
-  "As a gynecologist, TechDr improved my online presence and made appointment booking seamless.",
-  "TechDr helped our radiology centre with visibility and a professional, trustworthy online brand.",
-  "My dermatology practice gets more enquiries thanks to TechDr’s healthcare-focused marketing.",
-  "TechDr’s approach to doctor branding and local visibility brought more patients to my clinic.",
-  "Orthopedic practice growth with TechDr - strong local visibility and online booking for patients.",
-  "TechDr supported our obstetric & gynecology brand with SEO and patient-first digital presence.",
-  "TechDr’s healthcare marketing and booking automation helped our urology practice scale.",
-  "As a gastroenterologist, I trust TechDr for ethical growth and measurable patient enquiries.",
-  "TechDr improved our orthopedic clinic’s Google visibility and online appointment flow.",
-  "TechDr helped my fertility and gynecology practice with branding and patient trust online.",
-  "TechDr’s healthcare digital marketing increased my gynecology practice’s local visibility.",
-  "My dermatology clinic grew with TechDr - better SEO, branding, and patient enquiries.",
-  "TechDr supported our pain and regenerative medicine practice with visibility and bookings.",
-  "TechDr’s doctor branding and booking system helped my gynecology practice attract more patients.",
-  "As a gynecologist, TechDr improved my online presence and automated appointment reminders.",
-  "TechDr’s marketing and tech stack helped our surgical practice with visibility and bookings.",
-  "Pediatric practice growth with TechDr - parents find us easily and book online with confidence.",
-  "TechDr boosted our orthopedic clinic’s local SEO and patient enquiry quality.",
-  "My hematology practice benefits from TechDr’s healthcare-focused digital growth strategy.",
-  "TechDr helped my urology practice with Google visibility and seamless online booking.",
-  "TechDr’s gynecology practice marketing improved our brand trust and patient enquiries.",
-  "As a gynecologist, TechDr delivered better local visibility and appointment automation.",
-  "TechDr supported our orthopedic and joint replacement practice with strong online presence.",
-  "TechDr’s healthcare growth approach helped our surgical oncology practice reach more patients.",
-  "As a physician and diabetologist, TechDr improved my clinic’s visibility and patient flow.",
-  "TechDr helped our neurology clinic with digital branding and patient-friendly booking.",
-  "TechDr’s pediatric and newborn practice marketing increased our visibility and trust.",
-  "TechDr improved my gynecology practice’s local SEO and online appointment experience.",
-  "Our obstetrics and gynecology practice grew with TechDr’s branding and booking automation.",
-  "TechDr’s healthcare marketing helped my gynecology practice attract more local patients.",
-  "TechDr supported our neurology clinic with better visibility and patient enquiry quality.",
-  "Pediatrics practice growth with TechDr - parents find us on Google and book easily.",
-  "TechDr helped our surgical gastroenterology practice with visibility and patient trust.",
-  "As a gynecologist, TechDr improved our clinic’s online presence and appointment flow.",
-  "TechDr’s hemato-oncology practice marketing brought measurable growth and patient reach.",
-  "TechDr improved our urology practice’s local visibility and online patient experience.",
-];
+function normalizeSpecializationLabel(specialization: string): string {
+  return specialization
+    .replace(/\s+/g, " ")
+    .replace(/\s*[-|/]\s*/g, " ")
+    .replace(/\s*,\s*/g, ", ")
+    .trim();
+}
+
+function pickVariantIndex(seed: string, size: number): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash * 31 + seed.charCodeAt(i)) % 2147483647;
+  }
+  return Math.abs(hash) % size;
+}
+
+function createTestimonial(name: string, specialization: string): string {
+  const label = normalizeSpecializationLabel(specialization);
+  if (!label) {
+    return `${name} shared that TechDr improved clinic visibility and brought more genuine patient enquiries month after month.`;
+  }
+
+  const spec = label.toLowerCase();
+  const variants = [
+    `${name} says TechDr helped our ${spec} practice rank better on Google and convert searches into booked appointments.`,
+    `For ${name}, TechDr made patient acquisition smoother by improving local visibility and enquiry quality for ${spec} services.`,
+    `${name} noticed stronger trust online after TechDr optimized branding, reviews, and lead flow for ${spec} consultations.`,
+    `${name} credits TechDr for building a reliable digital pipeline that keeps ${spec} appointment requests consistent.`,
+    `According to ${name}, TechDr turned digital traffic into real walk-ins by refining messaging and booking journeys for ${spec}.`,
+    `${name} found that TechDr's healthcare marketing system improved discoverability and follow-ups for ${spec} patients.`,
+    `With TechDr, ${name} saw better Google presence, cleaner patient communication, and higher conversion for ${spec} enquiries.`,
+    `${name} says TechDr helped scale ${spec} growth with stronger local SEO, trust signals, and streamlined booking.`,
+  ];
+
+  return variants[pickVariantIndex(`${name}|${spec}`, variants.length)];
+}
 
 export type Doctor = {
   name: string;
@@ -115,12 +121,12 @@ export type Doctor = {
   imagePath: string;
 };
 
-export const doctors: Doctor[] = DOCTOR_FILES.map((file, i) => {
+export const doctors: Doctor[] = DOCTOR_FILES.map((file) => {
   const { name, specialization } = parseFilename(file);
   return {
     name,
     specialization,
-    testimonial: TESTIMONIALS[i] ?? "TechDr helped our practice with healthcare digital growth and patient visibility.",
+    testimonial: createTestimonial(name, specialization),
     imagePath: doctorImagePath(file),
   };
 });
