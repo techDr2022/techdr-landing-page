@@ -14,7 +14,11 @@ declare global {
 
 const RECAPTCHA_ACTION = "clinic_growth_submit";
 
-export function ClinicGrowthForm() {
+type ClinicGrowthFormProps = {
+  variant?: "page" | "modal";
+};
+
+export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -117,7 +121,11 @@ export function ClinicGrowthForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"
+      className={
+        variant === "modal"
+          ? "space-y-4"
+          : "space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"
+      }
     >
       <div>
         <label className="block text-sm font-medium text-slate-700">

@@ -8,6 +8,7 @@ import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
 import { DemoButton } from "@/components/DemoButton";
 import { PricingTabs } from "@/components/PricingTabs";
+import { TrackedAnchor } from "@/components/TrackedAnchor";
 import { doctors } from "@/app/data/doctors";
 import { WHATSAPP_NUMBER, WHATSAPP_PREFILL } from "@/lib/config";
 import {
@@ -48,17 +49,17 @@ export default async function Home({ searchParams }: HomeProps) {
       </Suspense>
       {/* Minimal header - agency style, sticky on mobile and desktop */}
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4 md:px-8">
-          <a href="#" className="flex items-center h-11 md:h-12">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:px-8 md:py-4">
+          <a href="#" className="flex h-10 shrink-0 items-center md:h-12">
             <Image
               src="/logo.png"
               alt="TechDr"
               width={96}
               height={48}
-              className="h-full w-[90px] object-contain md:w-[110px]"
+              className="h-full w-[88px] object-contain md:w-[110px]"
             />
           </a>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
             <a href="#why-techdr" className="transition hover:text-slate-900">
               Why TechDr
             </a>
@@ -85,33 +86,37 @@ export default async function Home({ searchParams }: HomeProps) {
             </a>
           </nav>
           {/* Desktop actions – primary CTA goes to same form (same friction) */}
-          <div className="hidden items-center gap-3 md:flex">
-            <a
+          <div className="hidden shrink-0 items-center gap-3 md:flex">
+            <TrackedAnchor
               href="tel:+919542218454"
+              ctaLabel="Talk to Expert"
+              ctaLocation="header_desktop"
               className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
             >
               Talk to Expert
-            </a>
-            <a
-              href="#growth-form"
+            </TrackedAnchor>
+            <DemoButton
+              ctaLabel="Get Free Consultation"
+              ctaLocation="header_desktop"
               className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
             >
               Get Free Consultation
-            </a>
+            </DemoButton>
           </div>
           {/* Mobile action – same form friction */}
-          <div className="flex items-center gap-2 md:hidden">
-            <a
-              href="#growth-form"
-              className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+          <div className="flex shrink-0 items-center gap-2 md:hidden">
+            <DemoButton
+              ctaLabel="Get Free Consultation"
+              ctaLocation="header_mobile"
+              className="inline-flex whitespace-nowrap rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-2 text-[11px] font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
             >
-              Get Free Consultation
-            </a>
+              Free Consult
+            </DemoButton>
           </div>
         </div>
         {/* Mobile nav stripe with section links - inside header so it sticks together */}
         <div className="border-t border-slate-200/80 bg-white md:hidden">
-          <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-4 py-2 text-xs font-medium text-slate-600">
+          <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-4 py-2 text-xs font-medium text-slate-600 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <a href="#why-techdr" className="whitespace-nowrap transition hover:text-slate-900">
               Why TechDr
             </a>
@@ -166,15 +171,21 @@ export default async function Home({ searchParams }: HomeProps) {
                   Google Partner
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
-                  <DemoButton className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40">
+                  <DemoButton
+                    ctaLabel="Book Free Strategy Call"
+                    ctaLocation="hero"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+                  >
                     Book Free Strategy Call
                   </DemoButton>
-                  <a
+                  <TrackedAnchor
                     href="#one-system"
+                    ctaLabel="See How It Works"
+                    ctaLocation="hero"
                     className="inline-flex items-center gap-2 rounded-full border-2 border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
                   >
                     See How It Works →
-                  </a>
+                  </TrackedAnchor>
                 </div>
               </div>
 

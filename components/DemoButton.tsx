@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 import { DemoModal } from "./DemoModal";
+import { trackCtaClick } from "@/lib/analytics";
 
 type DemoButtonProps = {
   children: React.ReactNode;
   className?: string;
+  ctaLabel?: string;
+  ctaLocation?: string;
 };
 
-export function DemoButton({ children, className = "" }: DemoButtonProps) {
+export function DemoButton({
+  children,
+  className = "",
+  ctaLabel = "Demo Button",
+  ctaLocation = "unknown",
+}: DemoButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -16,6 +24,7 @@ export function DemoButton({ children, className = "" }: DemoButtonProps) {
       <button
         onClick={(e) => {
           e.preventDefault();
+          trackCtaClick(ctaLabel, ctaLocation);
           setIsOpen(true);
         }}
         className={className}
