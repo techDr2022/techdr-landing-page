@@ -1062,6 +1062,16 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
         </div>
       </footer>
+
+      <div className="mobile-sticky-cta fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/95 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur md:hidden">
+        <DemoButton
+          ctaLabel="Get Free Consultation"
+          ctaLocation="sticky_mobile_bottom"
+          className="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+        >
+          Get Free Consultation
+        </DemoButton>
+      </div>
     </div>
   );
 }

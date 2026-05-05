@@ -21,6 +21,8 @@ type ClinicGrowthFormProps = {
 export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [clinicType, setClinicType] = useState("");
+  const [monthlyBudget, setMonthlyBudget] = useState("");
 
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
@@ -61,6 +63,15 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
     if (isSubmitting) return;
 
     const form = event.currentTarget;
+    if (!clinicType) {
+      setError("Please select clinic type.");
+      return;
+    }
+    if (!monthlyBudget) {
+      setError("Please select monthly marketing budget.");
+      return;
+    }
+
     const email = (form.querySelector('input[name="email"]') as HTMLInputElement)?.value?.trim();
     if (email) {
       const emailCheck = validateBusinessEmail(email);
@@ -75,6 +86,8 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
 
     try {
       const formData = new FormData(form);
+      formData.set("clinicType", clinicType);
+      formData.set("monthlyBudget", monthlyBudget);
 
       const token = await getRecaptchaToken();
       if (token) {
@@ -118,120 +131,133 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
     }
   };
 
+  const isModal = variant === "modal";
+  const formClassName = isModal
+    ? "space-y-4"
+    : "space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm";
+  const fieldClassName =
+    "mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-emerald-500/0 transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20";
+  const labelClassName = "block text-sm font-medium text-slate-700";
+  const chipClass = (active: boolean) =>
+    `rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+      active
+        ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+    }`;
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={
-        variant === "modal"
-          ? "space-y-4"
-          : "space-y-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"
-      }
-    >
+    <form onSubmit={handleSubmit} className={formClassName}>
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className={labelClassName}>
           Doctor / Clinic Name
         </label>
         <input
           type="text"
           name="clinicName"
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
+          className={fieldClassName}
           placeholder="e.g. Dr Sharma Multi-Speciality Clinic"
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-slate-700">
-          Clinic Type <span className="text-red-500">*</span>
-        </label>
-        <select
-          name="clinicType"
-          required
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-        >
-          <option value="">Select clinic type</option>
-          <option value="Doctor">Doctor</option>
-          <option value="Clinic">Clinic</option>
-          <option value="Hospital">Hospital</option>
-          <option value="IVF Centre">IVF Centre</option>
-          <option value="Diagnostic Centre">Diagnostic Centre</option>
-          <option value="Other">Other</option>
-        </select>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className={labelClassName}>
+            Clinic Type <span className="text-red-500">*</span>
+          </label>
+          <input type="hidden" name="clinicType" value={clinicType} />
+          <div className="mt-2 flex flex-wrap gap-2">
+            {["Doctor", "Clinic", "Hospital", "IVF Centre", "Diagnostic Centre", "Other"].map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setClinicType(option)}
+                className={chipClass(clinicType === option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className={labelClassName}>
+            Monthly Marketing Budget <span className="text-red-500">*</span>
+          </label>
+          <input type="hidden" name="monthlyBudget" value={monthlyBudget} />
+          <div className="mt-2 flex flex-wrap gap-2">
+            {["Under ₹20,000", "₹20,000–₹50,000", "₹50,000–₹1L", "₹1L+"].map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setMonthlyBudget(option)}
+                className={chipClass(monthlyBudget === option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700">
-          Monthly Marketing Budget <span className="text-red-500">*</span>
-        </label>
-        <select
-          name="monthlyBudget"
-          required
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-        >
-          <option value="">Select budget range</option>
-          <option value="Under ₹20,000">Under ₹20,000</option>
-          <option value="₹20,000–₹50,000">₹20,000–₹50,000</option>
-          <option value="₹50,000–₹1L">₹50,000–₹1L</option>
-          <option value="₹1L+">₹1L+</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className={labelClassName}>
           City <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
           name="city"
           required
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
+          className={fieldClassName}
           placeholder="e.g. Hyderabad"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className={labelClassName}>
           Website / Google Maps Link
         </label>
         <input
           type="url"
           name="websiteLink"
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
+          className={fieldClassName}
           placeholder="e.g. https://g.page/your-clinic or your website URL"
         />
         <p className="mt-0.5 text-xs text-slate-500">Optional but recommended</p>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-slate-700">
-          Phone Number
-        </label>
-        <input
-          type="tel"
-          name="phone"
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-          placeholder="Enter your WhatsApp / mobile number"
-        />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className={labelClassName}>
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            className={fieldClassName}
+            placeholder="Enter your WhatsApp / mobile number"
+          />
+        </div>
+        <div>
+          <label className={labelClassName}>
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            name="email"
+            required
+            className={fieldClassName}
+            placeholder="e.g. doctor@clinic.com"
+          />
+        </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">
-          Email <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="email"
-          name="email"
-          required
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
-          placeholder="e.g. doctor@clinic.com"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className={labelClassName}>
           Speciality
         </label>
         <input
           type="text"
           name="speciality"
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-emerald-500/0 transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/20"
+          className={fieldClassName}
           placeholder="e.g. Orthopedics, IVF, Dental"
         />
       </div>
@@ -245,7 +271,7 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40 disabled:opacity-70"
+        className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-emerald-500/30 transition hover:shadow-emerald-500/40 disabled:cursor-not-allowed disabled:opacity-70"
       >
         <span>{isSubmitting ? "Submitting..." : "📈 Get Free Consultation"}</span>
       </button>
