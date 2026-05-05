@@ -34,13 +34,15 @@ export default async function Home({ searchParams }: HomeProps) {
   const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     WHATSAPP_PREFILL,
   )}`;
-  const instagramEmbedLinks = [
-    "https://www.instagram.com/reel/DW1HPlEiXW7/?utm_source=ig_embed&utm_campaign=loading",
-    "https://www.instagram.com/reel/DVV-6zEE7h2/?utm_source=ig_embed&utm_campaign=loading",
-    "https://www.instagram.com/reel/DUqMGDPjX3c/?utm_source=ig_embed&utm_campaign=loading",
-    "https://www.instagram.com/p/DXvK1QwTg8M/?utm_source=ig_embed&utm_campaign=loading",
-    "https://www.instagram.com/reel/DRWPQZYjwEl/?utm_source=ig_embed&utm_campaign=loading",
-    "https://www.instagram.com/reel/DP8f5awkotm/?utm_source=ig_embed&utm_campaign=loading",
+  const doctorReelVideos = [
+    { src: "/reels/reel1.mp4", title: "Doctor Reel 1" },
+    { src: "/reels/reel2.mp4", title: "Doctor Reel 2" },
+    { src: "/reels/reel3.mp4", title: "Doctor Reel 3" },
+    { src: "/reels/reel4.mp4", title: "Doctor Reel 4" },
+    { src: "/reels/reel5.mp4", title: "Doctor Reel 5" },
+    { src: "/reels/reel6.mp4", title: "Doctor Reel 6" },
+    { src: "/reels/reel7.mp4", title: "Doctor Reel 7" },
+    { src: "/reels/reel8.mp4", title: "Doctor Reel 8" },
   ];
   return (
     <div className="min-h-screen bg-white text-slate-900">
@@ -341,7 +343,7 @@ export default async function Home({ searchParams }: HomeProps) {
               </p>
             </div>
 
-            <InstagramReelsSlider links={instagramEmbedLinks} />
+            <InstagramReelsSlider videos={doctorReelVideos} />
 
             <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center md:p-6">
               <p className="text-sm text-slate-700">
