@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { FaqSection } from "@/components/FaqSection";
 import { ClinicGrowthForm } from "@/components/ClinicGrowthForm";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
+import { InstagramReelsSlider } from "@/components/InstagramReelsSlider";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
 import { DemoButton } from "@/components/DemoButton";
@@ -32,6 +33,14 @@ export default async function Home({ searchParams }: HomeProps) {
   const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     WHATSAPP_PREFILL,
   )}`;
+  const instagramEmbedLinks = [
+    "https://www.instagram.com/reel/DW1HPlEiXW7/?utm_source=ig_embed&utm_campaign=loading",
+    "https://www.instagram.com/reel/DVV-6zEE7h2/?utm_source=ig_embed&utm_campaign=loading",
+    "https://www.instagram.com/reel/DUqMGDPjX3c/?utm_source=ig_embed&utm_campaign=loading",
+    "https://www.instagram.com/p/DXvK1QwTg8M/?utm_source=ig_embed&utm_campaign=loading",
+    "https://www.instagram.com/reel/DRWPQZYjwEl/?utm_source=ig_embed&utm_campaign=loading",
+    "https://www.instagram.com/reel/DP8f5awkotm/?utm_source=ig_embed&utm_campaign=loading",
+  ];
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <Suspense fallback={null}>
@@ -64,6 +73,9 @@ export default async function Home({ searchParams }: HomeProps) {
             </a>
             <a href="#proof" className="transition hover:text-slate-900">
               Proof
+            </a>
+            <a href="#doctor-reels" className="transition hover:text-slate-900">
+              Reels
             </a>
             <a href="#faq" className="transition hover:text-slate-900">
               FAQ
@@ -114,6 +126,9 @@ export default async function Home({ searchParams }: HomeProps) {
             </a>
             <a href="#proof" className="whitespace-nowrap transition hover:text-slate-900">
               Proof
+            </a>
+            <a href="#doctor-reels" className="whitespace-nowrap transition hover:text-slate-900">
+              Reels
             </a>
             <a href="#faq" className="whitespace-nowrap transition hover:text-slate-900">
               FAQ
@@ -296,6 +311,43 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
         </section>
 
+        {/* Doctor Reels showcase */}
+        <section
+          id="doctor-reels"
+          className="border-b border-slate-200/80 bg-white py-16 md:py-20"
+        >
+          <div className="mx-auto max-w-6xl px-4 md:px-8">
+            <div className="mb-10 text-center">
+              <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-fuchsia-500 via-pink-500 to-orange-500" />
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+                Doctor Reels That Build{" "}
+                <span className="bg-gradient-to-r from-fuchsia-600 to-orange-500 bg-clip-text text-transparent">
+                  Trust & Enquiries
+                </span>
+              </h2>
+              <p className="mt-3 text-slate-600">
+                Short-form video strategy for awareness, authority, and patient conversion.
+              </p>
+            </div>
+
+            <InstagramReelsSlider links={instagramEmbedLinks} />
+
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center md:p-6">
+              <p className="text-sm text-slate-700">
+                Want your own reel funnel? We plan scripts, shoot strategy, hooks, editing style, and CTA
+                flow for healthcare audiences.
+              </p>
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex rounded-full bg-gradient-to-r from-fuchsia-500 to-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-fuchsia-500/30 transition hover:shadow-fuchsia-500/40"
+              >
+                Plan My Doctor Reels
+              </a>
+            </div>
+          </div>
+        </section>
         {/* Why most clinics don't get enough enquiries */}
         <section
           id="pain-points"

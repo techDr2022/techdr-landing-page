@@ -32,7 +32,7 @@ npm run start
 ### WhatsApp and PDF
 
 - **File:** `lib/config.ts`
-- **WhatsApp number:** Set `WHATSAPP_NUMBER` (country code + number, no spaces or `+`, e.g. `919876543210`).
+- **WhatsApp number:** Set `WHATSAPP_NUMBER` (country code + number, no spaces or `+`, e.g. `919542218454`).
 - **Prefill message:** Set `WHATSAPP_PREFILL` for the default message when opening WhatsApp.
 - **Proposal PDF:** Set `PROPOSAL_PDF_LINK` to your PDF URL when ready (currently a placeholder `#`).
 

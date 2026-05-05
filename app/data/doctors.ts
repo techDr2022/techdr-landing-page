@@ -69,7 +69,7 @@ const DOCTOR_FILES = [
   "Dr. Venu Bhargava Surgical gastroenterology  - Apollo Hospital.png",
   "Dr.ANUSHA MALLARAPU Gynecologist - Jade Clinic.png",
   "Dr.G. Stitha Pragna - Hemato-Oncologist Bone Marrow Transplant Physician - Continental Hospital.png",
-  "Srikanth - Urologist.png",
+  "Dr. Srikanth - Urologist.png",
 ];
 
 function normalizeSpecializationLabel(specialization: string): string {

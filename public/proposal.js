@@ -1,6 +1,6 @@
 // TechDr Proposal - standalone JS (tabs, accordion, WhatsApp form)
 (function () {
-  const WHATSAPP_NUMBER = "919876543210";
+  const WHATSAPP_NUMBER = "919542218454";
   const WHATSAPP_PREFILL = "Hi, I'm interested in TechDr's healthcare growth proposal for my practice.";
 
   // Tabs
