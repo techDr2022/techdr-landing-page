@@ -62,7 +62,7 @@ export default function RootLayout({
         </Script>
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-11117817231"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18143061006"
           strategy="afterInteractive"
         />
         <Script id="google-ads-gtag" strategy="afterInteractive">
@@ -73,6 +73,17 @@ export default function RootLayout({
 
             gtag('config', 'G-NKT5FEPLT2');
             gtag('config', 'AW-11117817231');
+            gtag('config', 'AW-18143061006');
+
+            // Fires the Google Ads conversion only on lead success pages (?submitted=1).
+            (function () {
+              try {
+                var params = new URLSearchParams(window.location.search);
+                if (params.get('submitted') === '1') {
+                  gtag('event', 'conversion', {'send_to': 'AW-18143061006/5kgUCILMk6gcEI7IpMtD'});
+                }
+              } catch (e) {}
+            })();
           `}
         </Script>
         {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
