@@ -35,7 +35,7 @@ const SEO_FAQS = [
   },
   {
     q: "Do you guarantee leads or rankings?",
-    a: "We focus on structured growth, quality traffic, and conversion optimisation. While no ethical agency guarantees rankings, our healthcare-specific strategies are designed to maximise enquiries and appointment conversions.",
+    a: "We focus on structured growth, quality traffic, and conversion optimisation. While no ethical agency guarantees rankings, we do not use fake calls or fake leads - our healthcare-specific strategies are built for genuine patient enquiries and appointment conversions.",
   },
   {
     q: "Will you manage everything or do we need an in-house team?",

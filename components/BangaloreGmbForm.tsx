@@ -180,7 +180,7 @@ export function BangaloreGmbForm() {
         <span>{isSubmitting ? "Submitting..." : "Book Free Consultation"}</span>
       </button>
       <p className="mt-2 text-center text-xs text-slate-500">
-        Your details are safe. No spam. Only healthcare experts will call.
+        Your details are safe. No spam, no fake calls, no fake leads.
       </p>
       {siteKey && (
         <p className="mt-1 text-center text-[10px] text-slate-400">
