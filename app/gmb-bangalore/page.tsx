@@ -5,7 +5,6 @@ import { BangaloreGmbForm } from "@/components/BangaloreGmbForm";
 import { BangaloreGmbFaq } from "@/components/BangaloreGmbFaq";
 import { SearchAnimationDemo } from "@/components/SearchAnimationDemo";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
-import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
 import { ThankYouTracking } from "@/components/ThankYouTracking";
 import { doctors } from "@/app/data/doctors";
@@ -194,39 +193,11 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
                 </div>
               </div>
 
-              {/* Right side - counter / snapshot card */}
+              {/* Right side - live Google Maps ranking search animation */}
               <div className="relative">
-                <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-400/20 to-teal-400/20 blur-2xl animate-pulse" />
-                <div className="card-3d relative rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-200/50">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      GBP impact snapshot
-                    </span>
-                    <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 animate-pulse">
-                      Live
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    {[
-                      { label: "Maps visibility", value: "+156%", sub: "Local search", delay: 0 },
-                      { label: "Patient enquiries", value: "2.8×", sub: "Calls & WhatsApp", delay: 150 },
-                      { label: "Review growth", value: "45%+", sub: "More ratings", delay: 300 },
-                    ].map((item) => (
-                      <div
-                        key={item.label}
-                        className="rounded-2xl border border-slate-100 bg-slate-50/80 p-4"
-                      >
-                        <p className="text-[11px] font-medium text-slate-500">{item.label}</p>
-                        <p className="mt-1 text-xl font-bold text-emerald-600">
-                          <AnimatedCounter value={item.value} duration={2000} />
-                        </p>
-                        <p className="text-[11px] text-slate-500">{item.sub}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="mt-4 rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2 text-xs text-slate-600">
-                    Bangalore · Doctors · Clinics · Hospitals · Diagnostics · IVF
-                  </p>
+                <div className="absolute -inset-5 rounded-3xl bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-cyan-400/20 blur-2xl" />
+                <div className="relative">
+                  <SearchAnimationDemo />
                 </div>
               </div>
             </div>
@@ -309,6 +280,8 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
                     "Services & treatment listing",
                     "Keyword optimisation",
                     "Location SEO targeting",
+                    "Suspension removal support",
+                    "Phone number activation support",
                   ],
                 },
                 {
@@ -538,6 +511,8 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
                     "Review management",
                     "Local SEO improvements",
                     "Daily SEO-based content updates (500–1,200 characters)",
+                    "Suspension removal support",
+                    "Phone number activation support",
                     "Monthly reports",
                     "Monthly performance review",
                   ].map((item) => (
@@ -573,6 +548,8 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
                     "Review management",
                     "Local SEO improvements",
                     "Daily SEO-based content updates (500–1,200 characters)",
+                    "Suspension removal support",
+                    "Phone number activation support",
                     "Monthly reports",
                     "Monthly performance review",
                   ].map((item) => (
@@ -585,6 +562,12 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
                 <p className="mt-5 text-sm font-medium text-slate-500 sm:mt-6">
                   Billed annually. Save 10% vs monthly.
                 </p>
+                <a
+                  href="#consultation"
+                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:shadow-emerald-500/35 sm:w-auto"
+                >
+                  Book Now
+                </a>
               </div>
             </div>
           </div>

@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const SEARCH_QUERIES = [
-  "Dermatologist near me",
-  "Best gynecologist in Bangalore",
-  "Orthopedic doctor near me",
-];
+const SEARCH_QUERIES = ["Gynecologist near me", "Best gynecologist in Bangalore"];
 
 const TYPING_SPEED_MS = 80;
 const PAUSE_AFTER_TYPING_MS = 600;
@@ -93,7 +89,7 @@ export function SearchAnimationDemo() {
           {/* Maps results area */}
           <div
             className={`mt-3 overflow-hidden transition-all duration-500 sm:mt-4 ${
-              phase === "results" ? "max-h-[280px] opacity-100 sm:max-h-[320px]" : "max-h-0 opacity-0"
+              phase === "results" ? "max-h-[360px] opacity-100 sm:max-h-[420px]" : "max-h-0 opacity-0"
             }`}
           >
             <div className="rounded-lg border border-slate-200/80 bg-slate-50/50 p-2.5 sm:rounded-xl sm:p-3">
@@ -103,37 +99,96 @@ export function SearchAnimationDemo() {
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                   </svg>
                 </span>
-                Google Maps results
+                Google Maps local rankings
               </p>
-              <div className="space-y-1.5 sm:space-y-2">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white p-2 shadow-sm sm:gap-3 sm:p-3"
-                    style={{
-                      animation:
-                        phase === "results"
-                          ? `searchDemoSlideIn 0.4s ease-out ${i * 0.12}s both`
-                          : undefined,
-                    }}
-                  >
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 sm:h-10 sm:w-10">
-                      <span className="text-[10px] font-bold sm:text-xs">{i}</span>
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-xs font-semibold text-slate-800 sm:text-sm">
-                        {i === 1 ? "Clinic A" : i === 2 ? "Clinic B" : "Clinic C"} · 4.8 ★
-                      </p>
-                      <p className="truncate text-[10px] text-slate-500 sm:text-xs">Top 3 get most calls & enquiries</p>
-                    </div>
-                    <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700 sm:px-2 sm:text-[10px]">
-                      {i <= 2 ? "Call" : "Website"}
-                    </span>
+
+              <div className="grid gap-2 sm:gap-3 md:grid-cols-[1.12fr_1fr]">
+                <div className="relative min-h-[170px] overflow-hidden rounded-lg border border-slate-300/80 bg-[#f4f7f8] p-2.5 shadow-inner sm:min-h-[190px] sm:rounded-xl">
+                  <div className="absolute inset-0 opacity-100">
+                    <div className="absolute left-3 top-4 h-14 w-24 rounded-2xl border border-emerald-200/80 bg-emerald-100/80" />
+                    <div className="absolute right-5 top-5 h-10 w-20 rounded-2xl border border-blue-200/80 bg-blue-100/80" />
+                    <div className="absolute bottom-5 left-8 h-12 w-28 rounded-2xl border border-emerald-200/80 bg-emerald-100/80" />
+
+                    <div className="absolute -left-8 top-[42%] h-2.5 w-60 -rotate-12 bg-white" />
+                    <div className="absolute right-0 top-[30%] h-2.5 w-48 -rotate-6 bg-white" />
+                    <div className="absolute left-8 bottom-8 h-2.5 w-40 rotate-12 bg-white" />
+
+                    <div className="absolute -left-2 top-[55%] h-1.5 w-44 rotate-[5deg] bg-slate-300/90" />
+                    <div className="absolute right-5 top-[47%] h-1.5 w-32 -rotate-[11deg] bg-slate-300/90" />
+                    <div className="absolute left-10 top-[24%] h-1.5 w-28 rotate-[18deg] bg-slate-300/90" />
                   </div>
-                ))}
+                  {[1, 2, 3].map((i) => (
+                    <span
+                      key={`pin-${i}`}
+                      className={`absolute z-10 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold text-white shadow-lg ${
+                        i === 1
+                          ? "left-6 top-8 bg-red-500"
+                          : i === 2
+                            ? "right-8 top-10 bg-blue-600"
+                            : "left-1/2 bottom-8 -translate-x-1/2 bg-blue-600"
+                      }`}
+                      style={{
+                        animation:
+                          phase === "results"
+                            ? `searchDemoSlideIn 0.35s ease-out ${i * 0.12}s both`
+                            : undefined,
+                      }}
+                    >
+                      {i}
+                    </span>
+                  ))}
+                  <span className="absolute left-4 top-2 z-10 rounded bg-white/95 px-1.5 py-0.5 text-[8px] font-medium text-slate-600 shadow-sm">
+                    12th Main Rd
+                  </span>
+                  <span className="absolute right-6 top-16 z-10 rounded bg-white/95 px-1.5 py-0.5 text-[8px] font-medium text-slate-600 shadow-sm">
+                    24th Cross
+                  </span>
+                  <span className="absolute left-12 bottom-4 z-10 rounded bg-white/95 px-1.5 py-0.5 text-[8px] font-medium text-slate-600 shadow-sm">
+                    HSR Layout
+                  </span>
+                  <span className="absolute bottom-2 right-2 z-10 rounded-full bg-white px-2 py-0.5 text-[9px] font-semibold text-slate-700 shadow-sm">
+                    Bangalore map view
+                  </span>
+                </div>
+
+                <div className="space-y-1.5 sm:space-y-2">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white p-2 shadow-sm sm:gap-3 sm:p-3"
+                      style={{
+                        animation:
+                          phase === "results"
+                            ? `searchDemoSlideIn 0.4s ease-out ${i * 0.12}s both`
+                            : undefined,
+                      }}
+                    >
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 sm:h-10 sm:w-10">
+                        <span className="text-[10px] font-bold sm:text-xs">{i}</span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-xs font-semibold text-slate-800 sm:text-sm">
+                          {i === 1
+                            ? "TechDr Women Care, Bangalore"
+                            : i === 2
+                              ? "City Gyne Clinic, HSR Layout"
+                              : "Aster Women Wellness, JP Nagar"}{" "}
+                          · {i === 3 ? "4.7" : "4.8"} ★
+                        </p>
+                        <p className="truncate text-[10px] text-slate-500 sm:text-xs">
+                          Rank #{i} in local pack for gynecologist search
+                        </p>
+                      </div>
+                      <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700 sm:px-2 sm:text-[10px]">
+                        {i <= 2 ? "Call Now" : "Directions"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
+
               <p className="mt-2 text-center text-[10px] font-medium text-emerald-700 sm:mt-3 sm:text-[11px]">
-                ↑ Clinics in top 3 get the majority of patient calls
+                ↑ Top 3 Google Maps rankings drive most patient calls
               </p>
             </div>
           </div>
