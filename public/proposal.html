@@ -20,7 +20,20 @@
     </script>
     <!-- Event snippet for Submit lead form conversion page -->
     <script>
-      gtag('event', 'conversion', {'send_to': 'AW-18143061006/5kgUCILMk6gcEI7IpMtD'});
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-18142977935/3N0mCNHwq6gcEI-_n8tD',
+          'value': 1.0,
+          'currency': 'INR',
+          'event_callback': callback
+      });
+      return false;
+    }
     </script>
   </head>
   <body>

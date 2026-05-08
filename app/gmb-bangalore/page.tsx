@@ -7,6 +7,7 @@ import { SearchAnimationDemo } from "@/components/SearchAnimationDemo";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { FormToastHandler } from "@/components/FormToastHandler";
+import { ThankYouTracking } from "@/components/ThankYouTracking";
 import { doctors } from "@/app/data/doctors";
 import { CheckCircle2, MapPin, FileText, Star, TrendingUp, BarChart3 } from "lucide-react";
 
@@ -30,7 +31,55 @@ export const metadata = {
   },
 };
 
-export default function GmbBangalorePage() {
+type GmbBangalorePageProps = {
+  searchParams?: Promise<{ submitted?: string }>;
+};
+
+export default async function GmbBangalorePage({ searchParams }: GmbBangalorePageProps) {
+  const params = await searchParams;
+  const submitted = params?.submitted;
+
+  if (submitted === "1") {
+    return (
+      <div className="min-h-screen bg-white text-slate-900">
+        <ThankYouTracking formType="gmb_bangalore" />
+        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-8">
+            <Link href="/" className="flex h-11 items-center md:h-12">
+              <Image
+                src="/logo.png"
+                alt="TechDr"
+                width={96}
+                height={48}
+                className="h-full w-[90px] object-contain md:w-[110px]"
+              />
+            </Link>
+          </div>
+        </header>
+
+        <main className="mx-auto flex min-h-[calc(100vh-64px)] max-w-2xl flex-col items-center justify-center px-4 py-12 text-center">
+          <div className="w-full rounded-3xl border border-emerald-200/70 bg-gradient-to-b from-emerald-50/70 to-white p-6 shadow-sm sm:p-8">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-100">
+              <CheckCircle2 className="h-8 w-8 text-emerald-700" />
+            </div>
+            <h1 className="mt-5 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              Thank you — request received
+            </h1>
+            <p className="mt-2 text-sm text-slate-600 sm:text-base">
+              Our team will reach out shortly with next steps.
+            </p>
+            <a
+              href="/gmb-bangalore#consultation"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-emerald-500/25 transition hover:shadow-emerald-500/35 sm:w-auto"
+            >
+              Book another free consultation
+            </a>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <Suspense fallback={null}>

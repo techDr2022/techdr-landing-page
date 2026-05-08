@@ -75,15 +75,21 @@ export default function RootLayout({
             gtag('config', 'AW-11117817231');
             gtag('config', 'AW-18143061006');
 
-            // Fires the Google Ads conversion only on lead success pages (?submitted=1).
-            (function () {
-              try {
-                var params = new URLSearchParams(window.location.search);
-                if (params.get('submitted') === '1') {
-                  gtag('event', 'conversion', {'send_to': 'AW-18143061006/5kgUCILMk6gcEI7IpMtD'});
+            function gtag_report_conversion(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
                 }
-              } catch (e) {}
-            })();
+              };
+              gtag('event', 'conversion', {
+                  'send_to': 'AW-18142977935/3N0mCNHwq6gcEI-_n8tD',
+                  'value': 1.0,
+                  'currency': 'INR',
+                  'event_callback': callback
+              });
+              return false;
+            }
+            window.gtag_report_conversion = gtag_report_conversion;
           `}
         </Script>
         {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (

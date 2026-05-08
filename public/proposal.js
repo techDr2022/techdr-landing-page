@@ -68,6 +68,9 @@
       if (!ok) return;
 
       if (submitBtn) submitBtn.disabled = true;
+      if (typeof window.gtag_report_conversion === "function") {
+        window.gtag_report_conversion();
+      }
       const msg = buildMessage({ name, phone, clinic, service });
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
       window.open(url, "_blank", "noopener,noreferrer");
