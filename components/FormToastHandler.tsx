@@ -11,6 +11,12 @@ const ERROR_MESSAGES: Record<string, string> = {
   recaptcha_failed: "Security check failed. Please refresh the page and try again.",
   invalid_email:
     "Please use a business or professional email (e.g. clinicname@gmail.com). We don’t accept disposable emails, test addresses, or very short names.",
+  name_required: "Please enter doctor/clinic name.",
+  phone_required: "Please enter your phone number.",
+  invalid_phone: "Please enter a valid mobile number.",
+  duplicate_lead:
+    "This email/phone was already submitted recently. If this is urgent, call us directly.",
+  spam_detected: "Submission blocked by security checks. Please try again.",
 };
 
 export function FormToastHandler() {

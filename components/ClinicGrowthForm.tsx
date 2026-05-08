@@ -18,6 +18,11 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
       recaptchaAction="clinic_growth_submit"
       variant={variant}
       validate={(form) => {
+        const clinicName = (form.querySelector('input[name="clinicName"]') as HTMLInputElement)?.value?.trim();
+        if (!clinicName || clinicName.length < 3) {
+          return { ok: false, message: "Please enter doctor/clinic name." };
+        }
+
         const clinicType = (form.querySelector('input[name="clinicType"]') as HTMLInputElement)?.value?.trim();
         if (!clinicType) return { ok: false, message: "Please select clinic type." };
 
@@ -42,6 +47,12 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
         const city = (form.querySelector('input[name="city"]') as HTMLInputElement)?.value?.trim();
         if (!city) return { ok: false, message: "Please enter your city." };
 
+        const phoneRaw = (form.querySelector('input[name="phone"]') as HTMLInputElement)?.value?.trim();
+        const digitsOnly = (phoneRaw || "").replace(/\D/g, "");
+        if (digitsOnly.length !== 10) {
+          return { ok: false, message: "Please enter a valid 10-digit mobile number." };
+        }
+
         return { ok: true };
       }}
       onSuccess={() => {
@@ -50,6 +61,14 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
         window.dataLayer.push({ event: "techdr_lead_success" });
       }}
       fields={[
+        {
+          kind: "text",
+          name: "clinicName",
+          label: "Doctor / Clinic name",
+          placeholder: "e.g. Dr. Sharma Dental Care",
+          required: true,
+          autoComplete: "organization",
+        },
         {
           kind: "segmented",
           name: "clinicType",
@@ -96,9 +115,9 @@ export function ClinicGrowthForm({ variant = "page" }: ClinicGrowthFormProps) {
         {
           kind: "tel",
           name: "phone",
-          label: "WhatsApp / mobile number (optional)",
+          label: "WhatsApp / mobile number",
           placeholder: "Enter number",
-          required: false,
+          required: true,
           autoComplete: "tel",
           inputMode: "tel",
         },

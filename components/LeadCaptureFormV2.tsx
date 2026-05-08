@@ -216,6 +216,15 @@ export function LeadCaptureFormV2(props: LeadCaptureFormV2Props) {
 
   return (
     <form onSubmit={handleSubmit} className={styles.wrapper}>
+      {/* Honeypot: hidden field should stay empty for real users. */}
+      <input
+        type="text"
+        name="company_website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
       <div className={styles.header}>
         <p className={styles.title}>{title}</p>
         {!compact && subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}

@@ -6,9 +6,60 @@ import { validateBusinessEmail } from "@/lib/email-validation";
 // Resend testing only allows sending to account email. Default: contact@techdr.in. Set RESEND_TO=info@techdr.in when domain is verified.
 const DEFAULT_NOTIFY_EMAIL = "contact@techdr.in";
 
-const RECAPTCHA_MIN_SCORE = 0.5;
+const RECAPTCHA_MIN_SCORE = 0.7;
+const DUPLICATE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
+const leadFingerprintSeenAt = new Map<string, number>();
 
-function redirectError(req: Request, code: "config" | "email_required" | "send_failed" | "recaptcha_failed" | "invalid_email") {
+function normalizePhone(raw: string): string {
+  const digits = (raw || "").replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("91")) return digits.slice(2);
+  return digits;
+}
+
+function buildLeadFingerprint(email: string, phone: string): string {
+  return `${email.trim().toLowerCase()}::${normalizePhone(phone)}`;
+}
+
+function isDuplicateLead(email: string, phone: string): boolean {
+  const now = Date.now();
+
+  for (const [key, ts] of leadFingerprintSeenAt.entries()) {
+    if (now - ts > DUPLICATE_WINDOW_MS) {
+      leadFingerprintSeenAt.delete(key);
+    }
+  }
+
+  const fingerprint = buildLeadFingerprint(email, phone);
+  const lastSeenAt = leadFingerprintSeenAt.get(fingerprint);
+  if (lastSeenAt && now - lastSeenAt <= DUPLICATE_WINDOW_MS) {
+    return true;
+  }
+
+  leadFingerprintSeenAt.set(fingerprint, now);
+  return false;
+}
+
+function isLikelyValidIndianMobile(raw: string): boolean {
+  const digits = (raw || "").replace(/\D/g, "");
+  if (digits.length === 10) return /^[6-9]\d{9}$/.test(digits);
+  if (digits.length === 12 && digits.startsWith("91")) return /^[6-9]\d{9}$/.test(digits.slice(2));
+  return false;
+}
+
+function redirectError(
+  req: Request,
+  code:
+    | "config"
+    | "email_required"
+    | "send_failed"
+    | "recaptcha_failed"
+    | "invalid_email"
+    | "name_required"
+    | "phone_required"
+    | "invalid_phone"
+    | "spam_detected"
+    | "duplicate_lead"
+) {
   const url = new URL("/", req.url);
   url.searchParams.set("submitted", "0");
   url.searchParams.set("error", code);
@@ -60,6 +111,10 @@ export async function POST(req: Request) {
         return redirectError(req, "recaptcha_failed");
       }
       const { success, score, errorCodes } = await verifyRecaptcha(recaptchaToken, recaptchaSecret);
+      console.log("reCAPTCHA clinic-growth score", {
+        score,
+        minRequired: RECAPTCHA_MIN_SCORE,
+      });
       if (!success || (typeof score === "number" && score < RECAPTCHA_MIN_SCORE)) {
         console.error("reCAPTCHA verification failed or low score", {
           success,
@@ -78,6 +133,12 @@ export async function POST(req: Request) {
     const clinicType = (formData.get("clinicType") || "") as string;
     const monthlyBudget = (formData.get("monthlyBudget") || "") as string;
     const websiteLink = (formData.get("websiteLink") || "") as string;
+    const honeypot = (formData.get("company_website") || "") as string;
+
+    if (honeypot?.trim()) {
+      console.warn("Blocked clinic-growth submission by honeypot");
+      return redirectError(req, "spam_detected");
+    }
 
     if (!email?.trim()) {
       console.error("Email is required");
@@ -87,6 +148,10 @@ export async function POST(req: Request) {
     if (!emailValidation.valid) {
       console.error("Business email validation failed", emailValidation.reason);
       return redirectError(req, "invalid_email");
+    }
+    if (!clinicName?.trim() || clinicName.trim().length < 3) {
+      console.error("Clinic/doctor name is required");
+      return redirectError(req, "name_required");
     }
     if (!clinicType?.trim()) {
       console.error("Clinic type is required");
@@ -99,6 +164,20 @@ export async function POST(req: Request) {
     if (!city?.trim()) {
       console.error("City is required");
       return redirectError(req, "email_required");
+    }
+    if (!phone?.trim()) {
+      console.error("Phone number is required");
+      return redirectError(req, "phone_required");
+    }
+    if (!isLikelyValidIndianMobile(phone)) {
+      console.error("Phone number appears invalid");
+      return redirectError(req, "invalid_phone");
+    }
+    if (isDuplicateLead(email, phone)) {
+      console.warn("Duplicate clinic-growth lead blocked", {
+        email: email.trim().toLowerCase(),
+      });
+      return redirectError(req, "duplicate_lead");
     }
 
     const html = `
