@@ -150,9 +150,12 @@ export async function POST(req: Request) {
 
         console.log("Email sent successfully with fallback:", retryResult.data);
         await sendCustomerConfirmation(resend, fromEmail, email, clinicName || "there", "growth");
-        return NextResponse.redirect(new URL("/?submitted=1", req.url), {
-          status: 303,
-        });
+        return NextResponse.redirect(
+          new URL("/thank-you?form_type=clinic_growth", req.url),
+          {
+            status: 303,
+          }
+        );
       }
 
       return redirectError(req, "send_failed");
@@ -161,9 +164,12 @@ export async function POST(req: Request) {
     console.log("Email sent successfully:", result.data);
     await sendCustomerConfirmation(resend, fromEmail, email, clinicName || "there", "growth");
 
-    return NextResponse.redirect(new URL("/?submitted=1", req.url), {
-      status: 303,
-    });
+    return NextResponse.redirect(
+      new URL("/thank-you?form_type=clinic_growth", req.url),
+      {
+          status: 303,
+      }
+    );
   } catch (error) {
     console.error("Error sending clinic growth email:", error);
     if (error instanceof Error) {

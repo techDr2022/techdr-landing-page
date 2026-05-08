@@ -123,9 +123,12 @@ export async function POST(req: Request) {
             "growth"
           );
         }
-        return NextResponse.redirect(new URL(`${basePath}?submitted=1`, req.url), {
-          status: 303,
-        });
+        return NextResponse.redirect(
+          new URL("/thank-you?form_type=gmb_bangalore", req.url),
+          {
+            status: 303,
+          }
+        );
       }
       return redirectError(req, basePath, "send_failed");
     }
@@ -140,9 +143,12 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.redirect(new URL(`${basePath}?submitted=1`, req.url), {
-      status: 303,
-    });
+    return NextResponse.redirect(
+      new URL("/thank-you?form_type=gmb_bangalore", req.url),
+      {
+        status: 303,
+      }
+    );
   } catch (error) {
     console.error("Error sending GMB Bangalore lead email:", error);
     return redirectError(req, basePath, "send_failed");
