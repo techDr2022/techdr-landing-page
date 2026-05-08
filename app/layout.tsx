@@ -82,7 +82,8 @@ export default function RootLayout({
                 }
               };
               gtag('event', 'conversion', {
-                  'send_to': 'AW-18142977935/3N0mCNHwq6gcEI-_n8tD',
+                  // Keep conversion account aligned with loaded Google Ads tag.
+                  'send_to': 'AW-18143061006/3N0mCNHwq6gcEI-_n8tD',
                   'value': 1.0,
                   'currency': 'INR',
                   'event_callback': callback
