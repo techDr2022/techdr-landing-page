@@ -193,6 +193,11 @@ export function LeadCaptureFormV2(props: LeadCaptureFormV2Props) {
         body: formData,
       });
 
+      if (!response.ok) {
+        setError("Something went wrong. Please try again.");
+        return;
+      }
+
       if (typeof window.gtag_report_conversion === "function") {
         window.gtag_report_conversion();
       }
