@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { sendCustomerConfirmation } from "@/lib/email-customer";
-import { validateBusinessEmail } from "@/lib/email-validation";
-
-// Resend testing only allows sending to account email. Default: contact@techdr.in. Set RESEND_TO=info@techdr.in when domain is verified.
-const DEFAULT_NOTIFY_EMAIL = "contact@techdr.in";
+import { sendLeadEmail } from "@/lib/send-lead-email";
 
 const RECAPTCHA_MIN_SCORE = 0.7;
 const DUPLICATE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
@@ -192,56 +189,19 @@ export async function POST(req: Request) {
       <p><strong>Speciality:</strong> ${speciality || "-"}</p>
     `;
 
-    const fromEmail =
-      process.env.RESEND_FROM?.trim() && !process.env.RESEND_FROM.includes("resend.dev")
-        ? process.env.RESEND_FROM.trim()
-        : "TechDr <contact@techdr.in>";
-    const toEmail = process.env.RESEND_TO || DEFAULT_NOTIFY_EMAIL;
-
-    console.log("Attempting to send email from:", fromEmail, "to:", toEmail);
-
-    const result = await resend.emails.send({
-      from: fromEmail,
-      to: toEmail,
+    const sendResult = await sendLeadEmail(resend, {
       subject: "New Free Clinic Growth Plan Request",
       replyTo: email || undefined,
       html,
     });
 
-    if (result.error) {
-      console.error("Resend API error:", JSON.stringify(result.error, null, 2));
-
-      // If domain not verified, try with onboarding@resend.dev
-      if (fromEmail !== "onboarding@resend.dev" && result.error.message?.includes("domain")) {
-        console.log("Retrying with onboarding@resend.dev...");
-        const retryResult = await resend.emails.send({
-          from: "onboarding@resend.dev",
-          to: toEmail,
-          subject: "New Free Clinic Growth Plan Request",
-          replyTo: email || undefined,
-          html,
-        });
-
-        if (retryResult.error) {
-          console.error("Retry also failed:", JSON.stringify(retryResult.error, null, 2));
-          return redirectError(req, "send_failed");
-        }
-
-        console.log("Email sent successfully with fallback:", retryResult.data);
-        await sendCustomerConfirmation(resend, fromEmail, email, clinicName || "there", "growth");
-        return NextResponse.redirect(
-          new URL("/thank-you?form_type=clinic_growth", req.url),
-          {
-            status: 303,
-          }
-        );
-      }
-
+    if (!sendResult.ok) {
+      console.error("Clinic growth lead email failed:", sendResult.error);
       return redirectError(req, "send_failed");
     }
 
-    console.log("Email sent successfully:", result.data);
-    await sendCustomerConfirmation(resend, fromEmail, email, clinicName || "there", "growth");
+    console.log("Email sent successfully:", sendResult.id);
+    await sendCustomerConfirmation(resend, process.env.RESEND_FROM?.trim() || "TechDr <contact@techdr.in>", email, clinicName || "there", "growth");
 
     return NextResponse.redirect(
       new URL("/thank-you?form_type=clinic_growth", req.url),

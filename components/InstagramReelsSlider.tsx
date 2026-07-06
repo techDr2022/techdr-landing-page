@@ -1,11 +1,13 @@
 "use client";
 
-import { Play, Pause } from "lucide-react";
+import { Loader2, Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 type InstagramReelsSliderProps = {
   videos: { src: string; title: string }[];
 };
+
+const DRAG_THRESHOLD_PX = 8;
 
 export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -13,11 +15,14 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
   const [autoSlideIndex, setAutoSlideIndex] = useState(0);
   const [isInView, setIsInView] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartXRef = useRef(0);
   const dragScrollLeftRef = useRef(0);
+  const dragActiveRef = useRef(false);
+  const suppressClickRef = useRef(false);
 
   if (!videos.length) return null;
 
@@ -59,7 +64,9 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
     };
   }, [isInView, playingIndex, videos.length]);
 
-  const handleTogglePlay = (index: number) => {
+  const handleTogglePlay = async (index: number) => {
+    if (suppressClickRef.current) return;
+
     const current = videoRefs.current[index];
     if (!current) return;
     setAutoSlideIndex(index);
@@ -67,6 +74,7 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
     if (!current.paused) {
       current.pause();
       setPlayingIndex(null);
+      setLoadingIndex(null);
       return;
     }
 
@@ -76,8 +84,15 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
       video.currentTime = 0;
     });
 
-    current.play().catch(() => null);
-    setPlayingIndex(index);
+    setLoadingIndex(index);
+    try {
+      await current.play();
+      setPlayingIndex(index);
+    } catch {
+      setPlayingIndex(null);
+    } finally {
+      setLoadingIndex((prev) => (prev === index ? null : prev));
+    }
   };
 
   const scrollToIndex = (index: number) => {
@@ -104,26 +119,37 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     if (!track) return;
-    setIsDragging(true);
+    dragActiveRef.current = true;
+    suppressClickRef.current = false;
     dragStartXRef.current = e.clientX;
     dragScrollLeftRef.current = track.scrollLeft;
     track.setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
+    if (!dragActiveRef.current) return;
     const track = trackRef.current;
     if (!track) return;
     const delta = e.clientX - dragStartXRef.current;
+    if (Math.abs(delta) < DRAG_THRESHOLD_PX) return;
+
+    suppressClickRef.current = true;
+    setIsDragging(true);
     track.scrollLeft = dragScrollLeftRef.current - delta;
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     const track = trackRef.current;
     if (!track) return;
+    dragActiveRef.current = false;
     setIsDragging(false);
     if (track.hasPointerCapture(e.pointerId)) {
       track.releasePointerCapture(e.pointerId);
+    }
+    if (suppressClickRef.current) {
+      window.setTimeout(() => {
+        suppressClickRef.current = false;
+      }, 0);
     }
   };
 
@@ -156,7 +182,7 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "pan-x pan-y" }}
       >
         {videos.map((video, idx) => (
           <div
@@ -172,24 +198,39 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
               }}
               src={video.src}
               onClick={() => handleTogglePlay(idx)}
+              onPlaying={() => {
+                setLoadingIndex((prev) => (prev === idx ? null : prev));
+              }}
+              onWaiting={(e) => {
+                if (!e.currentTarget.paused) setLoadingIndex(idx);
+              }}
               onPause={() => {
-                if (playingIndex === idx) setPlayingIndex(null);
+                setPlayingIndex((current) => (current === idx ? null : current));
+                setLoadingIndex((current) => (current === idx ? null : current));
               }}
               onEnded={() => {
-                if (playingIndex === idx) setPlayingIndex(null);
+                setPlayingIndex((current) => (current === idx ? null : current));
+                setLoadingIndex((current) => (current === idx ? null : current));
               }}
-              preload="metadata"
+              preload={idx < 2 ? "metadata" : "none"}
               playsInline
               className="aspect-[9/16] w-full cursor-pointer bg-black object-cover"
             />
             <button
               type="button"
+              onPointerDown={(e) => e.stopPropagation()}
               onClick={() => handleTogglePlay(idx)}
-              className="absolute inset-0 flex items-center justify-center"
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-200 ${
+                playingIndex === idx
+                  ? "pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100"
+                  : "opacity-100"
+              }`}
               aria-label={playingIndex === idx ? `Pause reel ${idx + 1}` : `Play reel ${idx + 1}`}
             >
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition group-hover:scale-105">
-                {playingIndex === idx ? (
+                {loadingIndex === idx ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : playingIndex === idx ? (
                   <Pause className="h-5 w-5" />
                 ) : (
                   <Play className="ml-0.5 h-5 w-5" />

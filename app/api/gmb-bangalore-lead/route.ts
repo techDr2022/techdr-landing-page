@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { sendCustomerConfirmation } from "@/lib/email-customer";
-
-const DEFAULT_NOTIFY_EMAIL = "contact@techdr.in";
+import { sendLeadEmail } from "@/lib/send-lead-email";
 
 const RECAPTCHA_MIN_SCORE = 0.5;
 
@@ -87,56 +86,21 @@ export async function POST(req: Request) {
       <p><strong>Email:</strong> ${email || "-"}</p>
     `;
 
-    const fromEmail =
-      process.env.RESEND_FROM?.trim() && !process.env.RESEND_FROM.includes("resend.dev")
-        ? process.env.RESEND_FROM.trim()
-        : "TechDr <contact@techdr.in>";
-    const toEmail = process.env.RESEND_TO || DEFAULT_NOTIFY_EMAIL;
-
-    const result = await resend.emails.send({
-      from: fromEmail,
-      to: toEmail,
+    const sendResult = await sendLeadEmail(resend, {
       subject: "GMB Bangalore Doctors – New Lead",
       replyTo: email?.trim() || undefined,
       html,
     });
 
-    if (result.error) {
-      console.error("Resend API error:", JSON.stringify(result.error, null, 2));
-      if (fromEmail !== "onboarding@resend.dev" && result.error.message?.includes("domain")) {
-        const retryResult = await resend.emails.send({
-          from: "onboarding@resend.dev",
-          to: toEmail,
-          subject: "GMB Bangalore Doctors – New Lead",
-          replyTo: email?.trim() || undefined,
-          html,
-        });
-        if (retryResult.error) {
-          return redirectError(req, basePath, "send_failed");
-        }
-        if (email?.trim()) {
-          await sendCustomerConfirmation(
-            resend,
-            fromEmail,
-            email.trim(),
-            doctorName?.trim() || clinicName?.trim() || "there",
-            "growth"
-          );
-        }
-        return NextResponse.redirect(
-          new URL("/thank-you?form_type=gmb_bangalore", req.url),
-          {
-            status: 303,
-          }
-        );
-      }
+    if (!sendResult.ok) {
+      console.error("GMB Bangalore lead email failed:", sendResult.error);
       return redirectError(req, basePath, "send_failed");
     }
 
     if (email?.trim()) {
       await sendCustomerConfirmation(
         resend,
-        fromEmail,
+        process.env.RESEND_FROM?.trim() || "TechDr <contact@techdr.in>",
         email.trim(),
         doctorName?.trim() || clinicName?.trim() || "there",
         "growth"

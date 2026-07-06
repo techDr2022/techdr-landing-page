@@ -130,7 +130,9 @@ export function SearchAnimationDemo() {
                       style={{
                         animation:
                           phase === "results"
-                            ? `searchDemoSlideIn 0.35s ease-out ${i * 0.12}s both`
+                            ? i === 1
+                              ? "searchDemoSlideIn 0.35s ease-out 0s both, searchDemoPinPulse 1.6s ease-out 0.45s both"
+                              : `searchDemoSlideIn 0.35s ease-out ${i * 0.12}s both`
                             : undefined,
                       }}
                     >
@@ -151,39 +153,75 @@ export function SearchAnimationDemo() {
                   </span>
                 </div>
 
-                <div className="space-y-1.5 sm:space-y-2">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white p-2 shadow-sm sm:gap-3 sm:p-3"
-                      style={{
-                        animation:
-                          phase === "results"
-                            ? `searchDemoSlideIn 0.4s ease-out ${i * 0.12}s both`
-                            : undefined,
-                      }}
-                    >
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 sm:h-10 sm:w-10">
-                        <span className="text-[10px] font-bold sm:text-xs">{i}</span>
+                <div className="space-y-1.5 pt-2 sm:space-y-2">
+                  {[1, 2, 3].map((i) => {
+                    const isTop = i === 1;
+                    return (
+                      <div
+                        key={i}
+                        className={`relative flex items-center gap-2 rounded-lg border p-2 sm:gap-3 sm:p-3 ${
+                          isTop
+                            ? "border-emerald-400 bg-gradient-to-r from-emerald-50 via-white to-teal-50 shadow-md shadow-emerald-200/50 ring-2 ring-emerald-400/30"
+                            : "border-slate-200/80 bg-white shadow-sm"
+                        }`}
+                        style={{
+                          animation:
+                            phase === "results"
+                              ? isTop
+                                ? "searchDemoSlideIn 0.4s ease-out 0s both, searchDemoTopGlow 1.8s ease-out 0.4s both"
+                                : `searchDemoSlideIn 0.4s ease-out ${i * 0.12}s both`
+                              : undefined,
+                        }}
+                      >
+                        {isTop && (
+                          <span className="absolute -top-2 left-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white shadow-sm sm:text-[9px]">
+                            Top 1
+                          </span>
+                        )}
+                        <div
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg sm:h-10 sm:w-10 ${
+                            isTop
+                              ? "bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-sm"
+                              : "bg-slate-100 text-slate-500"
+                          }`}
+                        >
+                          <span className="text-[10px] font-bold sm:text-xs">{i}</span>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`truncate text-xs font-semibold sm:text-sm ${
+                              isTop ? "text-emerald-900" : "text-slate-800"
+                            }`}
+                          >
+                            {isTop
+                              ? "TechDr Women Care, Bangalore"
+                              : i === 2
+                                ? "City Gyne Clinic, HSR Layout"
+                                : "Aster Women Wellness, JP Nagar"}{" "}
+                            · {i === 3 ? "4.7" : "4.8"} ★
+                          </p>
+                          <p
+                            className={`truncate text-[10px] sm:text-xs ${
+                              isTop ? "font-medium text-emerald-700" : "text-slate-500"
+                            }`}
+                          >
+                            {isTop
+                              ? "#1 in Google Maps local pack"
+                              : `Rank #${i} in local pack for gynecologist search`}
+                          </p>
+                        </div>
+                        <span
+                          className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-semibold sm:px-2 sm:text-[10px] ${
+                            isTop
+                              ? "bg-emerald-600 text-white shadow-sm"
+                              : "bg-emerald-100 text-emerald-700"
+                          }`}
+                        >
+                          {i <= 2 ? "Call Now" : "Directions"}
+                        </span>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs font-semibold text-slate-800 sm:text-sm">
-                          {i === 1
-                            ? "TechDr Women Care, Bangalore"
-                            : i === 2
-                              ? "City Gyne Clinic, HSR Layout"
-                              : "Aster Women Wellness, JP Nagar"}{" "}
-                          · {i === 3 ? "4.7" : "4.8"} ★
-                        </p>
-                        <p className="truncate text-[10px] text-slate-500 sm:text-xs">
-                          Rank #{i} in local pack for gynecologist search
-                        </p>
-                      </div>
-                      <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700 sm:px-2 sm:text-[10px]">
-                        {i <= 2 ? "Call Now" : "Directions"}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 

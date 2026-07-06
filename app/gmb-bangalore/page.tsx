@@ -3,14 +3,23 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { BangaloreGmbForm } from "@/components/BangaloreGmbForm";
 import { BangaloreGmbFaq } from "@/components/BangaloreGmbFaq";
+import { FloatingContactButtons } from "@/components/FloatingContactButtons";
 import { SearchAnimationDemo } from "@/components/SearchAnimationDemo";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
 import { FormToastHandler } from "@/components/FormToastHandler";
 import { ThankYouTracking } from "@/components/ThankYouTracking";
 import { doctors } from "@/app/data/doctors";
-import { CheckCircle2, MapPin, FileText, Star, TrendingUp, BarChart3 } from "lucide-react";
+import { CheckCircle2, MapPin, FileText, Star, TrendingUp, BarChart3, Users, Clock } from "lucide-react";
+
+const pricingTrustBadges = [
+  { icon: Users, label: "200+ doctors onboarded" },
+  { icon: CheckCircle2, label: "Healthcare-only agency" },
+  { icon: MapPin, label: "Bangalore local SEO specialists" },
+] as const;
 
 const siteUrl = "https://growth.techdr.in";
+const GMB_WHATSAPP_PREFILL =
+  "Hi, I'm interested in Google Business Profile management for my clinic in Bangalore.";
 
 export const metadata = {
   title: "Google Business Profile Management for Doctors in Bangalore | TechDr",
@@ -75,6 +84,7 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
             </a>
           </div>
         </main>
+        <FloatingContactButtons prefill={GMB_WHATSAPP_PREFILL} />
       </div>
     );
   }
@@ -115,13 +125,13 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
           <div className="flex items-center gap-2">
             <a
               href="tel:+919542218454"
-              className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 md:px-5 md:py-2.5"
+              className="hidden rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 md:inline-flex"
             >
               Talk to Expert
             </a>
             <a
               href="#consultation"
-              className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40 md:px-5 md:py-2.5"
+              className="hidden rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40 md:inline-flex"
             >
               Book Free Consultation
             </a>
@@ -494,6 +504,21 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
               <p className="mt-2 text-slate-600">
                 <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent font-semibold">Google Business Profile</span> Management
               </p>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+                {pricingTrustBadges.map(({ icon: Icon, label }) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3 py-1.5 text-xs font-semibold text-emerald-800"
+                  >
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-900 sm:text-sm">
+                <Clock className="h-3.5 w-3.5 shrink-0" />
+                Limited onboarding slots this month
+              </p>
             </div>
             <div className="mx-auto grid max-w-4xl gap-6 sm:gap-8 lg:grid-cols-2 lg:max-w-5xl">
               {/* Monthly plan */}
@@ -587,6 +612,21 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
               <p className="mt-4 text-slate-600">
                 Want your clinic to rank on Google Maps in Bangalore? Start with a free strategy call.
               </p>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                {pricingTrustBadges.map(({ icon: Icon, label }) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-3 py-1.5 text-xs font-semibold text-emerald-800"
+                  >
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-900 sm:text-sm">
+                <Clock className="h-3.5 w-3.5 shrink-0" />
+                Limited onboarding slots this month
+              </p>
             </div>
             <BangaloreGmbForm />
           </div>
@@ -658,6 +698,15 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
           </div>
         </div>
       </footer>
+      <div className="mobile-sticky-cta fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/95 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur md:hidden">
+        <a
+          href="#consultation"
+          className="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:shadow-emerald-500/40"
+        >
+          Book Free Consultation
+        </a>
+      </div>
+      <FloatingContactButtons prefill={GMB_WHATSAPP_PREFILL} stickyBarOffset />
     </div>
   );
 }

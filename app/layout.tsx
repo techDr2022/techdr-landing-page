@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { Providers } from "./providers";
 import "./globals.css";
+
+const GMB_BANGALORE_GTM_ID = "GTM-PFSDFLXX";
+const GMB_BANGALORE_GTM_SCRIPT = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GMB_BANGALORE_GTM_ID}');`;
 
 const siteUrl = "https://growth.techdr.in";
 const siteName = "TechDr";
@@ -40,14 +48,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") ?? "";
+  const isGmbBangalore = pathname.startsWith("/gmb-bangalore");
+
   return (
     <html lang="en-IN" suppressHydrationWarning>
       <head>
+        {isGmbBangalore && (
+          <script dangerouslySetInnerHTML={{ __html: GMB_BANGALORE_GTM_SCRIPT }} />
+        )}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
@@ -101,6 +116,16 @@ export default function RootLayout({
         )}
       </head>
       <body>
+        {isGmbBangalore && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GMB_BANGALORE_GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        )}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KB38BGR5"
