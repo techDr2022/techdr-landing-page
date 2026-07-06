@@ -27,7 +27,7 @@ function getPreferredFrom(): string {
 function getRecipientCandidates(): string[] {
   const configured = process.env.RESEND_TO?.trim();
   const account = process.env.RESEND_ACCOUNT_EMAIL?.trim() || DEFAULT_NOTIFY_EMAIL;
-  return [...new Set([configured, account, DEFAULT_NOTIFY_EMAIL].filter(Boolean))];
+  return [...new Set([configured, account, DEFAULT_NOTIFY_EMAIL].filter((e): e is string => Boolean(e)))];
 }
 
 function isDomainVerificationError(message?: string): boolean {

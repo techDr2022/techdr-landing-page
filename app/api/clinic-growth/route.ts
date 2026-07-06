@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { sendCustomerConfirmation } from "@/lib/email-customer";
+import { validateBusinessEmail } from "@/lib/email-validation";
 import { sendLeadEmail } from "@/lib/send-lead-email";
 
 const RECAPTCHA_MIN_SCORE = 0.7;
