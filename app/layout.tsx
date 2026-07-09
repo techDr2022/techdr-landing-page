@@ -55,12 +55,15 @@ export default async function RootLayout({
 }>) {
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") ?? "";
-  const isGmbBangalore = pathname.startsWith("/gmb-bangalore");
+  const formType = headersList.get("x-form-type") ?? "";
+  const isGmbBangaloreGtm =
+    pathname.startsWith("/gmb-bangalore") ||
+    (pathname === "/thank-you" && formType === "gmb_bangalore");
 
   return (
     <html lang="en-IN" suppressHydrationWarning>
       <head>
-        {isGmbBangalore && (
+        {isGmbBangaloreGtm && (
           <script dangerouslySetInnerHTML={{ __html: GMB_BANGALORE_GTM_SCRIPT }} />
         )}
         <Script id="gtm-script" strategy="afterInteractive">
@@ -116,7 +119,7 @@ export default async function RootLayout({
         )}
       </head>
       <body>
-        {isGmbBangalore && (
+        {isGmbBangaloreGtm && (
           <noscript>
             <iframe
               src={`https://www.googletagmanager.com/ns.html?id=${GMB_BANGALORE_GTM_ID}`}
