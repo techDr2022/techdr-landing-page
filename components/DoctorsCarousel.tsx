@@ -8,7 +8,7 @@ const CARD_WIDTH = 240;
 
 export function DoctorsCarousel({ doctors }: { doctors: Doctor[] }) {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full min-w-0 overflow-hidden">
       {/* Edge fades */}
       <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-slate-50/95 to-transparent md:w-24" />
       <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-slate-50/95 to-transparent md:w-24" />
@@ -26,7 +26,7 @@ function DoctorCard({ doc }: { doc: Doctor }) {
 
   return (
     <div
-      className="doctor-card flex shrink-0 flex-col items-center rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm transition hover:border-emerald-200 hover:shadow-md"
+      className="doctor-card flex shrink-0 flex-col items-center rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm transition hover:border-emerald-200 hover:shadow-md max-sm:w-[min(240px,calc(100vw-2.5rem))]"
       style={{ width: CARD_WIDTH }}
     >
       {/* Photo box automatically sized by the photo itself (no extra empty height) */}

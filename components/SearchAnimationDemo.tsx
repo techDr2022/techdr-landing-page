@@ -9,17 +9,68 @@ const PAUSE_AFTER_TYPING_MS = 600;
 const RESULTS_VISIBLE_MS = 2800;
 const PAUSE_BETWEEN_CYCLES_MS = 1200;
 
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const handler = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const handler = (event: MediaQueryListEvent) => setIsMobile(event.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  return isMobile;
+}
+
+function useInView(rootMargin = "0px") {
+  const [inView, setInView] = useState(true);
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin, threshold: 0 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [node, rootMargin]);
+
+  return { inView, setRef: setNode };
+}
+
 export function SearchAnimationDemo() {
   const [queryIndex, setQueryIndex] = useState(0);
   const [typedLength, setTypedLength] = useState(0);
   const [phase, setPhase] = useState<"typing" | "results" | "reset">("typing");
   const [key, setKey] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
+  const useLightMotion = prefersReducedMotion || isMobile;
+  const { inView, setRef } = useInView("200px");
 
   const currentQuery = SEARCH_QUERIES[queryIndex];
+  const isActive = inView;
 
   // Typing effect: reveal one character at a time
   useEffect(() => {
-    if (phase !== "typing") return;
+    if (!isActive || phase !== "typing") return;
 
     if (typedLength >= currentQuery.length) {
       const t = setTimeout(() => setPhase("results"), PAUSE_AFTER_TYPING_MS);
@@ -30,11 +81,11 @@ export function SearchAnimationDemo() {
       setTypedLength((prev) => prev + 1);
     }, TYPING_SPEED_MS);
     return () => clearTimeout(t);
-  }, [phase, typedLength, currentQuery.length]);
+  }, [isActive, phase, typedLength, currentQuery.length]);
 
   // Show results for a while, then reset and go to next query
   useEffect(() => {
-    if (phase !== "results") return;
+    if (!isActive || phase !== "results") return;
 
     const t = setTimeout(() => {
       setPhase("reset");
@@ -43,18 +94,20 @@ export function SearchAnimationDemo() {
       setKey((k) => k + 1);
     }, RESULTS_VISIBLE_MS);
     return () => clearTimeout(t);
-  }, [phase]);
+  }, [isActive, phase]);
 
   // Short reset delay before starting to type again
   useEffect(() => {
-    if (phase !== "reset") return;
+    if (!isActive || phase !== "reset") return;
 
     const t = setTimeout(() => setPhase("typing"), PAUSE_BETWEEN_CYCLES_MS);
     return () => clearTimeout(t);
-  }, [phase, key]);
+  }, [isActive, phase, key]);
+
+  const showResults = phase === "results";
 
   return (
-    <div className="w-full min-w-0 max-w-2xl">
+    <div ref={setRef} className="w-full min-w-0 max-w-2xl [overflow-anchor:none]">
       <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-lg shadow-slate-200/50 sm:rounded-2xl sm:shadow-xl">
         {/* Browser chrome */}
         <div className="flex min-w-0 items-center gap-2 border-b border-slate-200/80 bg-slate-50/80 px-3 py-2.5 sm:px-4 sm:py-3">
@@ -86,12 +139,14 @@ export function SearchAnimationDemo() {
             </span>
           </div>
 
-          {/* Maps results area */}
-          <div
-            className={`mt-3 overflow-hidden transition-all duration-500 sm:mt-4 ${
-              phase === "results" ? "max-h-[360px] opacity-100 sm:max-h-[420px]" : "max-h-0 opacity-0"
-            }`}
-          >
+          {/* Fixed-height slot — results fade in/out without shifting page scroll */}
+          <div className="relative mt-3 h-[22rem] sm:mt-4 sm:h-[24rem]">
+            <div
+              className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ${
+                showResults ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+              aria-hidden={!showResults}
+            >
             <div className="rounded-lg border border-slate-200/80 bg-slate-50/50 p-2.5 sm:rounded-xl sm:p-3">
               <p className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:mb-3 sm:text-xs">
                 <span className="flex h-6 w-6 items-center justify-center rounded bg-emerald-100 text-emerald-600">
@@ -103,19 +158,19 @@ export function SearchAnimationDemo() {
               </p>
 
               <div className="grid gap-2 sm:gap-3 md:grid-cols-[1.12fr_1fr]">
-                <div className="relative min-h-[170px] overflow-hidden rounded-lg border border-slate-300/80 bg-[#f4f7f8] p-2.5 shadow-inner sm:min-h-[190px] sm:rounded-xl">
-                  <div className="absolute inset-0 opacity-100">
+                <div className="relative min-h-[150px] overflow-hidden rounded-lg border border-slate-300/80 bg-[#f4f7f8] p-2.5 shadow-inner sm:min-h-[190px] sm:rounded-xl">
+                  <div className="absolute inset-0 overflow-hidden opacity-100">
                     <div className="absolute left-3 top-4 h-14 w-24 rounded-2xl border border-emerald-200/80 bg-emerald-100/80" />
                     <div className="absolute right-5 top-5 h-10 w-20 rounded-2xl border border-blue-200/80 bg-blue-100/80" />
                     <div className="absolute bottom-5 left-8 h-12 w-28 rounded-2xl border border-emerald-200/80 bg-emerald-100/80" />
 
-                    <div className="absolute -left-8 top-[42%] h-2.5 w-60 -rotate-12 bg-white" />
-                    <div className="absolute right-0 top-[30%] h-2.5 w-48 -rotate-6 bg-white" />
-                    <div className="absolute left-8 bottom-8 h-2.5 w-40 rotate-12 bg-white" />
+                    <div className="absolute left-0 top-[42%] h-2.5 w-[85%] max-w-[12rem] -rotate-12 bg-white" />
+                    <div className="absolute right-0 top-[30%] h-2.5 w-[70%] max-w-[10rem] -rotate-6 bg-white" />
+                    <div className="absolute left-8 bottom-8 h-2.5 w-[60%] max-w-[8rem] rotate-12 bg-white" />
 
-                    <div className="absolute -left-2 top-[55%] h-1.5 w-44 rotate-[5deg] bg-slate-300/90" />
-                    <div className="absolute right-5 top-[47%] h-1.5 w-32 -rotate-[11deg] bg-slate-300/90" />
-                    <div className="absolute left-10 top-[24%] h-1.5 w-28 rotate-[18deg] bg-slate-300/90" />
+                    <div className="absolute left-0 top-[55%] h-1.5 w-[75%] max-w-[9rem] rotate-[5deg] bg-slate-300/90" />
+                    <div className="absolute right-5 top-[47%] h-1.5 w-[55%] max-w-[7rem] -rotate-[11deg] bg-slate-300/90" />
+                    <div className="absolute left-10 top-[24%] h-1.5 w-[50%] max-w-[6rem] rotate-[18deg] bg-slate-300/90" />
                   </div>
                   {[1, 2, 3].map((i) => (
                     <span
@@ -126,15 +181,14 @@ export function SearchAnimationDemo() {
                           : i === 2
                             ? "right-8 top-10 bg-blue-600"
                             : "left-1/2 bottom-8 -translate-x-1/2 bg-blue-600"
+                      } ${!useLightMotion && showResults ? "search-demo-pin-enter" : ""} ${
+                        !useLightMotion && showResults && i === 1 ? "search-demo-pin-pulse" : ""
                       }`}
-                      style={{
-                        animation:
-                          phase === "results"
-                            ? i === 1
-                              ? "searchDemoSlideIn 0.35s ease-out 0s both, searchDemoPinPulse 1.6s ease-out 0.45s both"
-                              : `searchDemoSlideIn 0.35s ease-out ${i * 0.12}s both`
-                            : undefined,
-                      }}
+                      style={
+                        !useLightMotion && showResults
+                          ? { animationDelay: `${i * 0.12}s` }
+                          : undefined
+                      }
                     >
                       {i}
                     </span>
@@ -163,15 +217,14 @@ export function SearchAnimationDemo() {
                           isTop
                             ? "border-emerald-400 bg-gradient-to-r from-emerald-50 via-white to-teal-50 shadow-md shadow-emerald-200/50 ring-2 ring-emerald-400/30"
                             : "border-slate-200/80 bg-white shadow-sm"
+                        } ${!useLightMotion && showResults ? "search-demo-card-enter" : ""} ${
+                          !useLightMotion && showResults && isTop ? "search-demo-top-glow" : ""
                         }`}
-                        style={{
-                          animation:
-                            phase === "results"
-                              ? isTop
-                                ? "searchDemoSlideIn 0.4s ease-out 0s both, searchDemoTopGlow 1.8s ease-out 0.4s both"
-                                : `searchDemoSlideIn 0.4s ease-out ${i * 0.12}s both`
-                              : undefined,
-                        }}
+                        style={
+                          !useLightMotion && showResults
+                            ? { animationDelay: `${i * 0.12}s` }
+                            : undefined
+                        }
                       >
                         {isTop && (
                           <span className="absolute -top-2 left-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white shadow-sm sm:text-[9px]">
@@ -228,6 +281,7 @@ export function SearchAnimationDemo() {
               <p className="mt-2 text-center text-[10px] font-medium text-emerald-700 sm:mt-3 sm:text-[11px]">
                 ↑ Top 3 Google Maps rankings drive most patient calls
               </p>
+            </div>
             </div>
           </div>
         </div>

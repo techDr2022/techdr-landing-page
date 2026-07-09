@@ -4,10 +4,14 @@ import { Loader2, Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 type InstagramReelsSliderProps = {
-  videos: { src: string; title: string }[];
+  videos: { src: string; title: string; poster?: string }[];
 };
 
 const DRAG_THRESHOLD_PX = 8;
+
+function getReelPoster(src: string) {
+  return src.replace(/\.mp4$/i, "-poster.jpg");
+}
 
 export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -197,6 +201,7 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
                 videoRefs.current[idx] = el;
               }}
               src={video.src}
+              poster={video.poster ?? getReelPoster(video.src)}
               onClick={() => handleTogglePlay(idx)}
               onPlaying={() => {
                 setLoadingIndex((prev) => (prev === idx ? null : prev));
@@ -212,9 +217,9 @@ export function InstagramReelsSlider({ videos }: InstagramReelsSliderProps) {
                 setPlayingIndex((current) => (current === idx ? null : current));
                 setLoadingIndex((current) => (current === idx ? null : current));
               }}
-              preload={idx < 2 ? "metadata" : "none"}
+              preload="none"
               playsInline
-              className="aspect-[9/16] w-full cursor-pointer bg-black object-cover"
+              className="aspect-[9/16] w-full cursor-pointer bg-slate-100 object-cover"
             />
             <button
               type="button"

@@ -4,9 +4,10 @@ import { Suspense } from "react";
 import { BangaloreGmbForm } from "@/components/BangaloreGmbForm";
 import { BangaloreGmbFaq } from "@/components/BangaloreGmbFaq";
 import { FloatingContactButtons } from "@/components/FloatingContactButtons";
-import { SearchAnimationDemo } from "@/components/SearchAnimationDemo";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { DoctorsCarousel } from "@/components/DoctorsCarousel";
 import { FormToastHandler } from "@/components/FormToastHandler";
+import { GmbTop3Profiles } from "@/components/GmbTop3Profiles";
 import { ThankYouTracking } from "@/components/ThankYouTracking";
 import { doctors } from "@/app/data/doctors";
 import { CheckCircle2, MapPin, FileText, Star, TrendingUp, BarChart3, Users, Clock } from "lucide-react";
@@ -203,11 +204,38 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
                 </div>
               </div>
 
-              {/* Right side - live Google Maps ranking search animation */}
               <div className="relative">
-                <div className="absolute -inset-5 rounded-3xl bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-cyan-400/20 blur-2xl" />
-                <div className="relative">
-                  <SearchAnimationDemo />
+                <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-400/20 to-teal-400/20 blur-2xl" />
+                <div className="card-3d relative rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-200/50">
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Google Maps impact
+                    </span>
+                    <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+                      Live
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      { label: "Maps ranking", value: "Top 3", sub: "Local pack" },
+                      { label: "Patient calls", value: "2.5×", sub: "More enquiries" },
+                      { label: "Review growth", value: "+40%", sub: "Credibility boost" },
+                    ].map((item) => (
+                      <div
+                        key={item.label}
+                        className="rounded-2xl border border-slate-100 bg-slate-50/80 p-4"
+                      >
+                        <p className="text-[11px] font-medium text-slate-500">{item.label}</p>
+                        <p className="mt-1 text-xl font-bold text-emerald-600">
+                          <AnimatedCounter value={item.value} duration={2000} />
+                        </p>
+                        <p className="text-[11px] text-slate-500">{item.sub}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2 text-xs text-slate-600">
+                    Bangalore · Dermatology · Gynecology · Orthopedics · IVF
+                  </p>
                 </div>
               </div>
             </div>
@@ -234,35 +262,30 @@ export default async function GmbBangalorePage({ searchParams }: GmbBangalorePag
           </div>
         </section>
 
-        {/* Why Google Business Profile is Critical - left content, right animation */}
+        {/* Why Google Business Profile is Critical */}
         <section
           id="why-gbp"
           className="border-b border-slate-200/80 bg-white py-12 sm:py-16 md:py-20"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12 xl:gap-16">
-              {/* Left: content (first on mobile) */}
-              <div className="min-w-0">
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
+              <div>
                 <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
                 <h2 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-4xl">
                   Why <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> is Critical for Doctors
                 </h2>
-                <p className="mt-5 text-base text-slate-600 sm:mt-6 sm:text-lg">
+                <p className="mt-5 max-w-3xl text-base text-slate-600 sm:mt-6 sm:text-lg">
                   When patients search on Google - &ldquo;Dermatologist near me&rdquo;, &ldquo;Best gynecologist in Bangalore&rdquo;, &ldquo;Orthopedic doctor near me&rdquo; - Google shows Google Maps results first.
                 </p>
-                <p className="mt-4 text-base text-slate-600 sm:text-lg">
+                <p className="mt-4 max-w-3xl text-base text-slate-600 sm:text-lg">
                   Clinics <strong>ranking in the top 3 map results</strong> receive the majority of patient calls and enquiries. Without proper optimisation, your clinic may not appear where patients are searching.
                 </p>
-                <p className="mt-4 text-base font-medium text-slate-700 sm:text-lg">
+                <p className="mt-4 max-w-3xl text-base font-medium text-slate-700 sm:text-lg">
                   TechDr helps doctors improve visibility, credibility, and patient enquiries through structured <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Google Business Profile</span> management.
                 </p>
               </div>
-              {/* Right: animation (second on mobile, full width) */}
-              <div className="flex w-full justify-center lg:justify-end">
-                <div className="w-full min-w-0 max-w-full lg:max-w-xl">
-                  <SearchAnimationDemo />
-                </div>
-              </div>
+
+              <GmbTop3Profiles />
             </div>
           </div>
         </section>
